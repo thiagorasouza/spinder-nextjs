@@ -1,9 +1,12 @@
+import useAudioContext from "../../hooks/useAudioContext";
 import AlbumCard from "./AlbumCard";
 import DeleteButton from "./DeleteButton";
 import InfoButton from "./InfoButton";
 import PlayButton from "./PlayButton.js";
 
 function AlbumItem({ album, ...props }) {
+  const { audio, playAudio, pauseAudio } = useAudioContext();
+
   const albumYear = new Date(album.releaseDate).getFullYear();
   const cardSubtitle = album.artistName + " · " + albumYear;
 
@@ -15,15 +18,8 @@ function AlbumItem({ album, ...props }) {
     props.onInfo(album.artistName, album.albumName);
   }
 
-  function handlePlay() {
-    props.onPlay(album.previewURL);
-  }
-
-  function handlePause() {
-    props.onPause();
-  }
-
   const playable = album.previewURL !== null;
+  const playing = audio && audio.src === album.previewURL;
 
   const controls = (
     <>
@@ -31,9 +27,9 @@ function AlbumItem({ album, ...props }) {
       <InfoButton onClick={handleInfo} />
       <PlayButton
         playable={playable}
-        playing={props.playing}
-        onPlay={handlePlay}
-        onPause={handlePause}
+        playing={playing}
+        onPlay={() => playAudio(album.previewURL)}
+        onPause={() => pauseAudio()}
       />
     </>
   );

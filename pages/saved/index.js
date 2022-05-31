@@ -1,7 +1,7 @@
 import useAlert from "../../hooks/useAlert";
 import useInfo from "../../hooks/useInfo";
-import useAudio from "../../hooks/useAudio";
 import useUserAlbums from "../../hooks/useUserAlbums";
+import useAudioContext from "../../hooks/useAudioContext";
 
 import Center from "../../components/Layout/Center";
 import Layout from "../../components/Layout/Layout";
@@ -9,13 +9,12 @@ import InfoSlider from "../../components/Sliders/InfoSlider";
 import AlbumsList from "../../components/Album/AlbumsList";
 import Alert from "../../components/UI/Alert";
 import SavedAlbumsPlaceholderPage from "../../components/Placeholders/SavedAlbumsPlaceholderPage";
-import LoadingSpinner from "../../components/UI/LoadingSpinner";
 
 function SavedAlbumsPage() {
   const { alert, alertVisible, showAlert, hideAlert } = useAlert();
   const { info, infoVisible, infoIsLoading, showInfo, hideInfo } =
     useInfo(showAlert);
-  const { audio, playAudio, pauseAudio } = useAudio();
+  const { pauseAudio } = useAudioContext();
   const { albums, deleteAlbum } = useUserAlbums(pauseAudio);
 
   if (!albums) {
@@ -31,11 +30,8 @@ function SavedAlbumsPage() {
         {hasSavedAlbums ? (
           <AlbumsList
             albums={albums}
-            audio={audio}
             onDelete={deleteAlbum}
             onInfo={showInfo}
-            onPlay={playAudio}
-            onPause={pauseAudio}
           />
         ) : (
           <p>Nothing here yet.</p>

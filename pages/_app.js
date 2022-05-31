@@ -8,6 +8,7 @@ import LoadingPage from "../components/UI/Loading";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/globals.css";
 import Head from "next/head";
+import { AudioContextProvider } from "../context/audio";
 
 export default function App({
   Component,
@@ -18,17 +19,19 @@ export default function App({
       <Head>
         <title>Spinder - Spotify meets Tinder</title>
       </Head>
-      <GenreContextProvider>
-        <SessionProvider session={session}>
-          {Component.requiresAuthentication ? (
-            <Authenticated placeholder={Component.placeholder}>
+      <AudioContextProvider>
+        <GenreContextProvider>
+          <SessionProvider session={session}>
+            {Component.requiresAuthentication ? (
+              <Authenticated placeholder={Component.placeholder}>
+                <Component {...pageProps} />
+              </Authenticated>
+            ) : (
               <Component {...pageProps} />
-            </Authenticated>
-          ) : (
-            <Component {...pageProps} />
-          )}
-        </SessionProvider>
-      </GenreContextProvider>
+            )}
+          </SessionProvider>
+        </GenreContextProvider>
+      </AudioContextProvider>
     </>
   );
 }

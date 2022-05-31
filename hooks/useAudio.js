@@ -19,6 +19,8 @@ function useAudio() {
   }
 
   function pauseAudio() {
+    if (!audio) return;
+
     audio.pause();
     audio.removeEventListener("ended", finishedAudioHandler);
     setAudio(null);
