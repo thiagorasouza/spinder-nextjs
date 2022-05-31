@@ -27,26 +27,26 @@ function SavedAlbumsPage() {
   return (
     <Layout>
       <Alert show={alertVisible} alert={alert} onClose={hideAlert} />
-      {hasSavedAlbums ? (
-        <AlbumsList
-          albums={albums}
-          audio={audio}
-          onDelete={deleteAlbum}
-          onInfo={showInfo}
-          onPlay={playAudio}
-          onPause={pauseAudio}
-        />
-      ) : (
-        <Center>
+      <Center>
+        {hasSavedAlbums ? (
+          <AlbumsList
+            albums={albums}
+            audio={audio}
+            onDelete={deleteAlbum}
+            onInfo={showInfo}
+            onPlay={playAudio}
+            onPause={pauseAudio}
+          />
+        ) : (
           <p>Nothing here yet.</p>
-        </Center>
-      )}
-      <InfoSlider
-        info={info}
-        show={infoVisible}
-        isLoading={infoIsLoading}
-        onHide={hideInfo}
-      />
+        )}
+        <InfoSlider
+          info={info}
+          show={infoVisible}
+          isLoading={infoIsLoading}
+          onHide={hideInfo}
+        />
+      </Center>
     </Layout>
   );
 }

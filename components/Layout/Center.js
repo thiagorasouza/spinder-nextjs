@@ -1,10 +1,7 @@
-function Center(props) {
+function Center({ children }) {
   return (
-    <div
-      style={{ minHeight: "100vh", marginTop: "-9vh" }}
-      className="d-flex flex-column justify-content-center align-items-center"
-    >
-      {props.children}
+    <div className="d-flex flex-column justify-content-center align-items-center">
+      {children}
     </div>
   );
 }

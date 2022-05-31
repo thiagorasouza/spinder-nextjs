@@ -46,3 +46,13 @@ button.btn-icon svg {
   top: 0;
   right: 0;
 }
+
+.album-card {
+  max-width: 480px;
+  width: 100%;
+  height: auto;
+}
+
+.album-card-placeholder {
+  width: 480px;
+}

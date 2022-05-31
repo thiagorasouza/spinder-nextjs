@@ -6,8 +6,7 @@ import ExternalLink from "./ExternalLink";
 function AlbumCard(props) {
   return (
     <>
-      <Script src="holder.js" />
-      <Card className="mb-3 position-relative">
+      <Card className="mb-3 position-relative album-card">
         <div
           className="position-absolute top-0 end-0 px-1 py-1 d-flex gap-1 bg-light"
           style={{ zIndex: 1020 }}
@@ -16,8 +15,8 @@ function AlbumCard(props) {
         </div>
         <div>
           <Image
-            width="640"
-            height="640"
+            width="480"
+            height="480"
             src={props.image}
             layout="responsive"
             className="card-img-top cover-image"
