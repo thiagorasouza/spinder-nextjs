@@ -69,17 +69,6 @@ function CoverItem(props) {
             </Overlay>
             <Overlay
               show={hovered}
-              position="top-right"
-              onClick={() =>
-                console.log(
-                  `Saving album ${props.album.spotifyId} to your Spotify Library`
-                )
-              }
-            >
-              <MdLibraryAdd />
-            </Overlay>
-            <Overlay
-              show={hovered}
               position="bottom-left"
               onClick={() =>
                 showInfo(props.album.artistName, props.album.albumName)

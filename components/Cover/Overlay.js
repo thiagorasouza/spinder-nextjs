@@ -16,7 +16,7 @@ function Overlay({ children: Icon, show, position, onClick }) {
       style={{
         width: "30%",
         height: "25%",
-        backgroundColor: "rgba(255, 255, 255, 0.75)",
+        backgroundColor: "rgba(255, 255, 255, 0.5)",
       }}
       role="button"
       onClick={onClick}
