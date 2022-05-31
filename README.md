@@ -14,7 +14,8 @@ Spinder is under development by Thiago Souza (@thiagorasouza)
 
 ### :earth_americas: Preview 
 
-
+- Live Demo: <https://spinder-nextjs.vercel.app/>
+- Github Repo: <https://github.com/thiagorasouza/spinder-nextjs>
 
 ### Stack
 
