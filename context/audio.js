@@ -5,7 +5,6 @@ const AudioContext = createContext(null);
 
 function AudioContextProvider(props) {
   const context = useAudio();
-  console.log(context);
 
   return (
     <AudioContext.Provider value={context}>
