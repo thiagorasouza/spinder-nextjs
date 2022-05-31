@@ -4,14 +4,14 @@ import User from "../models/users.model.js";
 async function getUserObject(req, res) {
   const { userId } = req.query;
 
-  // const session = await getSession({ req });
+  const session = await getSession({ req });
 
-  // if (userId !== session.user.id) {
-  //   return res.status(401).json({
-  //     message:
-  //       "User does not have permission to permission to perform this action",
-  //   });
-  // };
+  if (userId !== session.user.id) {
+    return res.status(401).json({
+      message:
+        "User does not have permission to permission to perform this action",
+    });
+  }
 
   const user = await User.findById(userId).exec();
 
