@@ -1,0 +1,9 @@
+.flashAlert {
+  /* max-width: 100%; */
+  display: block;
+  bottom: 0;
+  right: var(--bs-gutter-x, 0.75rem);
+  left: var(--bs-gutter-x, 0.75rem);
+  position: fixed;
+  z-index: 1030;
+}

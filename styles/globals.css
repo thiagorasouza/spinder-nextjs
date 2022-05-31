@@ -1,0 +1,48 @@
+a.external svg {
+  width: 0.75em;
+  height: 0.75em;
+  vertical-align: baseline;
+}
+
+button.btn-icon {
+  padding: 0.5em 0.65em;
+  line-height: 1;
+}
+
+button.btn-icon svg {
+  width: 1.1em;
+  height: 1.1em;
+  vertical-align: top;
+}
+
+.cover-image {
+  aspect-ratio: 1/1;
+  max-width: 100%;
+  height: auto;
+}
+
+.active {
+  color: #333;
+  cursor: default;
+  /* pointer-events: none; */
+}
+
+.overlay-bottom-left {
+  bottom: 0;
+  left: 0;
+}
+
+.overlay-bottom-center {
+  bottom: 0;
+  left: 35%;
+}
+
+.overlay-bottom-right {
+  bottom: 0;
+  right: 0;
+}
+
+.overlay-top-right {
+  top: 0;
+  right: 0;
+}
