@@ -1,5 +1,8 @@
 import { signIn } from "next-auth/react";
-import { Card, Container, Button } from "react-bootstrap";
+import Image from "next/image";
+import { Card, Container, Button, Row, Col } from "react-bootstrap";
+
+import styles from "./index.module.css";
 
 function LoginPage() {
   function signInAndRedirect() {
@@ -7,14 +10,26 @@ function LoginPage() {
   }
 
   return (
-    <Container className="d-flex flex-column justify-content-center min-vh-100">
-      <Card className="text-center">
-        <Card.Body>
-          <Card.Title>Spinder</Card.Title>
-          <Card.Text>Spotify meets Tinder</Card.Text>
+    <Container className={styles.container}>
+      <div className={styles.card}>
+        <div className={styles.logo}>
+          <Image
+            width="64"
+            height="64"
+            src="/img/logo-purple.png"
+            alt="Spinder logo, a pile of three albums"
+          />
+        </div>
+        <div className={styles.title}>
+          <h1>Spinder</h1>
+        </div>
+        <div className={styles.controls}>
           <Button onClick={signInAndRedirect}>Login with Spotify</Button>
-        </Card.Body>
-      </Card>
+        </div>
+        <div className={styles.footer}>
+          <p>Spotify meets Tinder.</p>
+        </div>
+      </div>
     </Container>
   );
 }

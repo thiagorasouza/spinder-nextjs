@@ -6,7 +6,8 @@ import { GenreContextProvider } from "../context/genre";
 import LoadingPage from "../components/UI/Loading";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../styles/globals.css";
+import "../styles/css/global.css";
+import "../styles/scss/global.scss";
 import Head from "next/head";
 import { AudioContextProvider } from "../context/audio";
 
