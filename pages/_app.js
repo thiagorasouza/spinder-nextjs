@@ -19,6 +19,7 @@ export default function App({
     <>
       <Head>
         <title>Spinder - Spotify meets Tinder</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <AudioContextProvider>
         <GenreContextProvider>
