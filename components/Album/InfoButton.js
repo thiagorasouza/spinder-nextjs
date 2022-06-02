@@ -1,5 +1,5 @@
 import { MdInfo } from "react-icons/md";
-import IconButton from "./IconButton";
+import IconButton from "../UI/IconButton";
 
 function InfoButton(props) {
   return (

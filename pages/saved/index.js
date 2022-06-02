@@ -25,7 +25,6 @@ function SavedAlbumsPage() {
 
   return (
     <Layout>
-      <Alert show={alertVisible} alert={alert} onClose={hideAlert} />
       <Center>
         {hasSavedAlbums ? (
           <AlbumsList
@@ -36,13 +35,14 @@ function SavedAlbumsPage() {
         ) : (
           <p>Nothing here yet.</p>
         )}
-        <InfoSlider
-          info={info}
-          show={infoVisible}
-          isLoading={infoIsLoading}
-          onHide={hideInfo}
-        />
       </Center>
+      <InfoSlider
+        info={info}
+        show={infoVisible}
+        isLoading={infoIsLoading}
+        onHide={hideInfo}
+      />
+      <Alert show={alertVisible} alert={alert} onClose={hideAlert} />
     </Layout>
   );
 }

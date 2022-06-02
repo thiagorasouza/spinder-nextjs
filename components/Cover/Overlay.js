@@ -1,30 +1,20 @@
+import styles from "./Overlay.module.css";
+
 function Overlay({ children: Icon, show, position, onClick }) {
-  const positionClasses = {
-    "top-right": "overlay-top-right",
-    "bottom-right": "overlay-bottom-right",
-    center: "overlay-bottom-center",
-    "bottom-left": "overlay-bottom-left",
+  const positions = {
+    "bottom-right": "bottomRight",
+    "bottom-left": "bottomLeft",
   };
 
+  const overlayClasses = styles.overlay + " " + styles[positions[position]];
+
+  if (!show) {
+    return null;
+  }
+
   return (
-    <div
-      className={
-        "position-absolute d-flex justify-content-center align-items-center " +
-        (show ? "visible " : "invisible ") +
-        positionClasses[position]
-      }
-      style={{
-        width: "30%",
-        height: "25%",
-        backgroundColor: "rgba(255, 255, 255, 0.5)",
-      }}
-      role="button"
-      onClick={onClick}
-    >
-      <Icon.type
-        {...Icon.props}
-        style={{ width: "40%", height: "40%", color: "#5037EA" }}
-      />
+    <div className={overlayClasses} role="button" onClick={onClick}>
+      <Icon.type {...Icon.props} className={styles.icon} />
     </div>
   );
 }

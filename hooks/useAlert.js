@@ -9,7 +9,7 @@ function useAlert(customDuration) {
   let alertTimer;
 
   function showAlert(message) {
-    const duration = customDuration || 2500;
+    const duration = customDuration || 2000;
     setMessage({
       message,
       type: "info",

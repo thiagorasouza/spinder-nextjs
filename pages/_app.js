@@ -10,6 +10,7 @@ import "../styles/css/global.css";
 import "../styles/scss/global.scss";
 import Head from "next/head";
 import { AudioContextProvider } from "../context/audio";
+import { AlertContextProvider } from "../context/alert";
 
 export default function App({
   Component,
@@ -21,19 +22,21 @@ export default function App({
         <title>Spinder - Spotify meets Tinder</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      <AudioContextProvider>
-        <GenreContextProvider>
-          <SessionProvider session={session}>
-            {Component.requiresAuthentication ? (
-              <Authenticated placeholder={Component.placeholder}>
+      <AlertContextProvider>
+        <AudioContextProvider>
+          <GenreContextProvider>
+            <SessionProvider session={session}>
+              {Component.requiresAuthentication ? (
+                <Authenticated placeholder={Component.placeholder}>
+                  <Component {...pageProps} />
+                </Authenticated>
+              ) : (
                 <Component {...pageProps} />
-              </Authenticated>
-            ) : (
-              <Component {...pageProps} />
-            )}
-          </SessionProvider>
-        </GenreContextProvider>
-      </AudioContextProvider>
+              )}
+            </SessionProvider>
+          </GenreContextProvider>
+        </AudioContextProvider>
+      </AlertContextProvider>
     </>
   );
 }

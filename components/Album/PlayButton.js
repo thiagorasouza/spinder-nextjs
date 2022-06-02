@@ -1,5 +1,5 @@
 import { MdPlayArrow, MdPlayDisabled, MdPause } from "react-icons/md";
-import IconButton from "./IconButton";
+import IconButton from "../UI/IconButton";
 
 function PlayButton(props) {
   const playButton = (

@@ -1,0 +1,25 @@
+.overlay {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+  height: 25%;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.icon {
+  width: 40%;
+  height: 40%;
+  color: var(--bs-primary);
+}
+
+.bottomLeft {
+  bottom: 0;
+  left: 0;
+}
+
+.bottomRight {
+  bottom: 0;
+  right: 0;
+}

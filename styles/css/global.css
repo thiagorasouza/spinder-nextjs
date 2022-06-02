@@ -79,26 +79,6 @@ button.btn-icon svg {
   background-color: #d9dafc;
 }
 
-.overlay-bottom-left {
-  bottom: 0;
-  left: 0;
-}
-
-.overlay-bottom-center {
-  bottom: 0;
-  left: 35%;
-}
-
-.overlay-bottom-right {
-  bottom: 0;
-  right: 0;
-}
-
-.overlay-top-right {
-  top: 0;
-  right: 0;
-}
-
 .album-card {
   max-width: 480px;
   width: 100%;

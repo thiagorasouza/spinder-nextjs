@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Alert as BootstrapAlert } from "react-bootstrap";
 
 import styles from "./Alert.module.css";

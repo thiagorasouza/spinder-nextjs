@@ -1,9 +1,14 @@
 import { useState } from "react";
 
-function useAudio() {
+function useAudio(onNotAvailable) {
   const [audio, setAudio] = useState(null);
 
   function playAudio(url) {
+    if (!url) {
+      onNotAvailable("This preview is not available");
+      return;
+    }
+
     if (audio?.src === url) {
       return;
     }
