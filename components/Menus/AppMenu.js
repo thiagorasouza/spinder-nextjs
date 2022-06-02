@@ -1,4 +1,4 @@
-import { Offcanvas, Nav } from "react-bootstrap";
+import { Offcanvas, Nav, Image } from "react-bootstrap";
 
 import Link from "next/link";
 import { signOut } from "next-auth/react";
@@ -20,7 +20,16 @@ function AppMenu(props) {
       aria-labelledby="app-menu-label"
     >
       <Offcanvas.Header closeButton>
-        <Offcanvas.Title id="app-menu-label">Menu</Offcanvas.Title>
+        <Offcanvas.Title id="app-menu-label">
+          <Image
+            alt="site logo"
+            src="/img/logo-purple.png"
+            width="30"
+            height="30"
+            className="d-inline-block align-top me-2"
+          />{" "}
+          <span className="fw-bold">Spinder</span>
+        </Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body>
         <Nav as="ul" activeKey={router.asPath} className="flex-column">

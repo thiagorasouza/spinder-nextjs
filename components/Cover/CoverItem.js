@@ -37,7 +37,7 @@ function CoverItem(props) {
       <Row className="mb-4">
         <Col sm="12">
           <div
-            className="position-relative"
+            className="position-relative mt-2"
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
           >
@@ -48,7 +48,7 @@ function CoverItem(props) {
               rounded
               src={props.album.coverURL}
               alt=""
-              className="cover-image"
+              className="cover-image bg-light"
             />
             <Overlay
               show={hovered}
@@ -85,12 +85,20 @@ function CoverItem(props) {
       </Row>
       <Row className="justify-content-center">
         <Col xs="auto">
-          <Button onClick={handleNextAlbum} className="btn-icon" size="lg">
+          <Button
+            onClick={handleNextAlbum}
+            className="rounder-circle btn-icon btn-like"
+            size="lg"
+          >
             <BsXLg />
           </Button>
         </Col>
         <Col xs="auto">
-          <Button onClick={handleSaveAlbum} className="btn-icon" size="lg">
+          <Button
+            onClick={handleSaveAlbum}
+            className="btn-icon btn-like"
+            size="lg"
+          >
             <FaHeart />
           </Button>
         </Col>

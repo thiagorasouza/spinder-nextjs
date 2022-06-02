@@ -23,7 +23,7 @@ function Overlay({ children: Icon, show, position, onClick }) {
     >
       <Icon.type
         {...Icon.props}
-        style={{ width: "40%", height: "40%", color: "#0d6efd" }}
+        style={{ width: "40%", height: "40%", color: "#5037EA" }}
       />
     </div>
   );

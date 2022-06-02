@@ -1,4 +1,6 @@
-import { Offcanvas, Nav } from "react-bootstrap";
+import { Offcanvas, Nav, Image } from "react-bootstrap";
+
+import { FaItunesNote } from "react-icons/fa";
 
 function GenreMenu(props) {
   return (
@@ -10,7 +12,10 @@ function GenreMenu(props) {
       aria-labelledby="genre-menu-label"
     >
       <Offcanvas.Header closeButton>
-        <Offcanvas.Title id="genre-menu-label">Genre</Offcanvas.Title>
+        <Offcanvas.Title id="genre-menu-label">
+          <FaItunesNote className="d-inline-block align-top mt-1 me-2 text-primary" />
+          <span className="fw-bold">Genres</span>
+        </Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body>
         <Nav as="ul" activeKey={props.active} className="flex-column">
