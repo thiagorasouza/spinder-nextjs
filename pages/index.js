@@ -2,7 +2,7 @@ import Layout from "../components/Layout/Layout";
 import LoadingPage from "../components/UI/Loading";
 import Center from "../components/Layout/Center";
 import CoverCarousel from "../components/Cover/CoverCarousel";
-import InfoSlider from "../components/Sliders/InfoSlider";
+import InfoSlider from "../components/UI/InfoSlider";
 import Alert from "../components/UI/Alert";
 
 import useAlbums from "../hooks/useAlbums";

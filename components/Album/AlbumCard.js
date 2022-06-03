@@ -1,12 +1,14 @@
 import Image from "next/image";
 import Script from "next/script";
 import { Card } from "react-bootstrap";
-import ExternalLink from "./ExternalLink";
+import ExternalLink from "../UI/ExternalLink";
+
+import styles from "./AlbumCard.module.css";
 
 function AlbumCard(props) {
   return (
     <>
-      <Card className="mb-3 position-relative album-card">
+      <Card className={styles.card}>
         <div
           className="position-absolute top-0 end-0 px-1 py-1 d-flex gap-1 bg-light"
           style={{ zIndex: 1020 }}
@@ -19,7 +21,7 @@ function AlbumCard(props) {
             height="480"
             src={props.image}
             layout="responsive"
-            className="card-img-top cover-image"
+            className="card-img-top image-cover"
             alt=""
           />
         </div>

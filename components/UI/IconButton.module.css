@@ -1,0 +1,15 @@
+.btnIcon {
+  padding: 0.5em 0.65em;
+  line-height: 1;
+}
+
+.btnIcon:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.btnIcon :global(svg) {
+  width: 1.1em;
+  height: 1.1em;
+  vertical-align: middle;
+}

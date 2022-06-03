@@ -1,12 +1,11 @@
-import { Button } from "react-bootstrap";
 import { BsXLg } from "react-icons/bs";
-import IconButton from "../UI/IconButton";
+import RoundedIconButton from "../UI/RoundedIconButton";
 
 function CoverNextButton(props) {
   return (
-    <IconButton onClick={props.onClick} className="btn-like" size="lg">
+    <RoundedIconButton onClick={props.onClick} size="lg">
       <BsXLg />
-    </IconButton>
+    </RoundedIconButton>
   );
 }
 

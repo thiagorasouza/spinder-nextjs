@@ -1,5 +1,4 @@
-.flashAlert {
-  /* max-width: 100%; */
+.alert {
   display: block;
   bottom: 0;
   right: var(--bs-gutter-x, 0.75rem);

@@ -5,10 +5,10 @@ import useAudioContext from "../../hooks/useAudioContext";
 
 import Center from "../../components/Layout/Center";
 import Layout from "../../components/Layout/Layout";
-import InfoSlider from "../../components/Sliders/InfoSlider";
+import InfoSlider from "../../components/UI/InfoSlider";
 import AlbumsList from "../../components/Album/AlbumsList";
 import Alert from "../../components/UI/Alert";
-import SavedAlbumsPlaceholderPage from "../../components/Placeholders/SavedAlbumsPlaceholderPage";
+import SavedAlbumsPlaceholder from "../../components/Placeholders/SavedAlbumsPlaceholder";
 
 function SavedAlbumsPage() {
   const { alert, alertVisible, showAlert, hideAlert } = useAlert();
@@ -18,7 +18,7 @@ function SavedAlbumsPage() {
   const { albums, deleteAlbum } = useUserAlbums(pauseAudio);
 
   if (!albums) {
-    return <SavedAlbumsPlaceholderPage />;
+    return <SavedAlbumsPlaceholder />;
   }
 
   const hasSavedAlbums = Array.isArray(albums) && albums.length > 0;
@@ -48,6 +48,6 @@ function SavedAlbumsPage() {
 }
 
 SavedAlbumsPage.requiresAuthentication = true;
-SavedAlbumsPage.placeholder = <SavedAlbumsPlaceholderPage />;
+SavedAlbumsPage.placeholder = <SavedAlbumsPlaceholder />;
 
 export default SavedAlbumsPage;

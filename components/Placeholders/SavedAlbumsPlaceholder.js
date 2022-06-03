@@ -1,9 +1,11 @@
 import Script from "next/script";
-import { Card, Container, Placeholder } from "react-bootstrap";
+import { Card, Placeholder } from "react-bootstrap";
 import Center from "../Layout/Center";
 import Layout from "../Layout/Layout";
 
-function SavedAlbumsPlaceholderPage() {
+import styles from "./SavedAlbumsPlaceholder.module.css";
+
+function SavedAlbumsPlaceholder() {
   const repetitions = 2;
 
   return (
@@ -11,7 +13,7 @@ function SavedAlbumsPlaceholderPage() {
       <Script src="holder.js" />
       <Layout>
         <Center>
-          <div className="overflow-hidden" style={{ maxHeight: "91vh" }}>
+          <div className={styles.card}>
             {[...Array(repetitions)].map((_, index) => (
               <Card
                 key={index}
@@ -41,4 +43,4 @@ function SavedAlbumsPlaceholderPage() {
   );
 }
 
-export default SavedAlbumsPlaceholderPage;
+export default SavedAlbumsPlaceholder;

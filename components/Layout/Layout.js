@@ -1,5 +1,5 @@
 import { Container, Navbar, Button, Image } from "react-bootstrap";
-import { FaBars, FaItunesNote } from "react-icons/fa";
+import { FaItunesNote } from "react-icons/fa";
 
 import AppMenu from "../Menus/AppMenu";
 import GenreMenu from "../Menus/GenreMenu";
@@ -8,6 +8,7 @@ import { useState } from "react";
 import useGenreContext from "../../hooks/useGenreContext";
 
 import styles from "./Layout.module.css";
+import IconButton from "../UI/IconButton";
 
 function Layout(props) {
   const { genre, genres, setGenre } = useGenreContext();
@@ -20,13 +21,11 @@ function Layout(props) {
   }
 
   return (
-    <Container className="container-center">
+    <Container className={styles.container}>
       <Navbar expand={false} fixed="top" bg="light" className={styles.navbar}>
-        {/* <Container> */}
-        <Button
+        <IconButton
           arial-controls="app-menu"
           onClick={() => setAppMenuVisible(true)}
-          className="btn-icon"
           variant="link"
         >
           <Image
@@ -35,18 +34,16 @@ function Layout(props) {
             width="24"
             height="24"
           />
-        </Button>
+        </IconButton>
         <Navbar.Brand className="fw-bold">Spinder</Navbar.Brand>
-        <Button
+        <IconButton
           arial-controls="genre-menu"
           onClick={() => setGenreMenuVisible(true)}
-          className="btn-icon"
           disabled={!props.genreMenu}
           variant="link"
         >
-          <FaItunesNote />
-        </Button>
-        {/* </Container> */}
+          <FaItunesNote className="align-text-top" />
+        </IconButton>
       </Navbar>
 
       <div>{props.children}</div>

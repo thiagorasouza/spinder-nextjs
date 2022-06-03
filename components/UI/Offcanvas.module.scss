@@ -1,0 +1,36 @@
+.offcanvas {
+  margin: 0.35rem;
+  border-radius: 0.25rem;
+  padding-bottom: 2rem;
+
+  &:global(.offcanvas-start),
+  &:global(.offcanvas-end) {
+    width: 250px;
+  }
+
+  &:global(.offcanvas-bottom) {
+    height: auto;
+    max-height: 70vh;
+  }
+
+  :global(.active) {
+    color: #333 !important;
+    font-weight: bold;
+  }
+
+  :global(.nav-link) {
+    display: inline-block !important;
+    border-radius: 0.35em;
+  }
+  :global(.nav-link:hover) {
+    background-color: #d9dafc;
+  }
+}
+
+.title {
+  font-weight: 700 !important;
+}
+
+.body {
+  padding: 0 1rem;
+}

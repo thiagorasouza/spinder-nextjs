@@ -1,12 +1,11 @@
-import { Button } from "react-bootstrap";
 import { FaHeart } from "react-icons/fa";
-import IconButton from "../UI/IconButton";
+import RoundedIconButton from "../UI/RoundedIconButton";
 
 function CoverSaveButton(props) {
   return (
-    <IconButton onClick={props.onClick} className="btn-like" size="lg">
+    <RoundedIconButton onClick={props.onClick} size="lg">
       <FaHeart />
-    </IconButton>
+    </RoundedIconButton>
   );
 }
 

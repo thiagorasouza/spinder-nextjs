@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { Image } from "react-bootstrap";
 
 import useAudioContext from "../../hooks/useAudioContext";
 import InfoOverlay from "./InfoOverlay";
 import PlayOverlay from "./PlayOverlay";
+import CoverImage from "../UI/CoverImage";
+
+import styles from "./CoverCarouselImage.module.css";
 
 function CoverCarouselImage(props) {
   const [hovered, setHovered] = useState(true);
@@ -28,19 +30,11 @@ function CoverCarouselImage(props) {
   return (
     <>
       <div
-        className="position-relative mt-2"
+        className={styles.container}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
-        <Image
-          width="480"
-          height="480"
-          thumbnail
-          rounded
-          src={props.album.coverURL}
-          alt="Current cover image"
-          className="cover-image bg-light"
-        />
+        <CoverImage src={props.album.coverURL} alt="Current cover image" />
         <PlayOverlay
           show={hovered}
           playable={playable}

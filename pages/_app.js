@@ -1,16 +1,15 @@
 import React from "react";
+import Head from "next/head";
 
-import { SessionProvider, useSession, signIn } from "next-auth/react";
+import { AlertContextProvider } from "../context/alert";
+import { AudioContextProvider } from "../context/audio";
 import { GenreContextProvider } from "../context/genre";
+import { SessionProvider, useSession, signIn } from "next-auth/react";
 
 import LoadingPage from "../components/UI/Loading";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../styles/css/global.css";
 import "../styles/scss/global.scss";
-import Head from "next/head";
-import { AudioContextProvider } from "../context/audio";
-import { AlertContextProvider } from "../context/alert";
 
 export default function App({
   Component,

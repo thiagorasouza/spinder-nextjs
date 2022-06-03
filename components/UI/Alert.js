@@ -1,4 +1,4 @@
-import { Alert as BootstrapAlert } from "react-bootstrap";
+import { Alert as BsAlert } from "react-bootstrap";
 
 import styles from "./Alert.module.css";
 
@@ -8,15 +8,15 @@ function Alert(props) {
   }
 
   return (
-    <BootstrapAlert
+    <BsAlert
       show={props.show}
-      className={styles.flashAlert}
+      className={styles.alert}
       variant={props.alert.type}
       dismissible
       onClose={props.onClose}
     >
       {props.alert.message}
-    </BootstrapAlert>
+    </BsAlert>
   );
 }
 

@@ -1,0 +1,6 @@
+.btnIconRounded {
+  width: 3em;
+  height: 3em;
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgb(0, 0, 0, 50%);
+}
