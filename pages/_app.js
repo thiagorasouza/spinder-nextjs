@@ -43,9 +43,12 @@ export default function App({
 function Authenticated({ placeholder, children }) {
   const session = useSession({ required: true });
 
+  // return placeholder;
   if (session.status === "loading") {
     return placeholder || <LoadingPage />;
   } else if (session.status === "authenticated") {
     return children;
   }
 }
+// style="box-sizing: border-box; display: block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: relative;"
+// box-sizing: border-box; display: block; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 100% 0px 0px;

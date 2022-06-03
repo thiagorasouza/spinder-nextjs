@@ -6,6 +6,10 @@
   &:global(.offcanvas-start),
   &:global(.offcanvas-end) {
     width: 250px;
+
+    .offcanvas-body {
+      padding: 0 1rem !important;
+    }
   }
 
   &:global(.offcanvas-bottom) {
@@ -29,8 +33,4 @@
 
 .title {
   font-weight: 700 !important;
-}
-
-.body {
-  padding: 0 1rem;
 }

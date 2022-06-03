@@ -1,6 +1,5 @@
 import Layout from "../components/Layout/Layout";
 import LoadingPage from "../components/UI/Loading";
-import Center from "../components/Layout/Center";
 import CoverCarousel from "../components/Cover/CoverCarousel";
 import InfoSlider from "../components/UI/InfoSlider";
 import Alert from "../components/UI/Alert";
@@ -21,15 +20,13 @@ function MainPage() {
   const album = albums[albumIndex];
 
   return (
-    <Layout genreMenu>
-      <Center>
-        <CoverCarousel
-          album={album}
-          onNextAlbum={nextAlbum}
-          onSaveAlbum={saveAlbum}
-          onInfo={showInfo}
-        />
-      </Center>
+    <Layout loadGenreMenu verticallyCenter>
+      <CoverCarousel
+        album={album}
+        onNextAlbum={nextAlbum}
+        onSaveAlbum={saveAlbum}
+        onInfo={showInfo}
+      />
       <InfoSlider
         info={info}
         show={infoVisible}

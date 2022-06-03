@@ -3,12 +3,13 @@ import useInfo from "../../hooks/useInfo";
 import useUserAlbums from "../../hooks/useUserAlbums";
 import useAudioContext from "../../hooks/useAudioContext";
 
-import Center from "../../components/Layout/Center";
 import Layout from "../../components/Layout/Layout";
 import InfoSlider from "../../components/UI/InfoSlider";
 import AlbumsList from "../../components/Album/AlbumsList";
 import Alert from "../../components/UI/Alert";
 import SavedAlbumsPlaceholder from "../../components/Placeholders/SavedAlbumsPlaceholder";
+
+import styles from "./index.module.css";
 
 function SavedAlbumsPage() {
   const { alert, alertVisible, showAlert, hideAlert } = useAlert();
@@ -25,17 +26,11 @@ function SavedAlbumsPage() {
 
   return (
     <Layout>
-      <Center>
-        {hasSavedAlbums ? (
-          <AlbumsList
-            albums={albums}
-            onDelete={deleteAlbum}
-            onInfo={showInfo}
-          />
-        ) : (
-          <p>Nothing here yet.</p>
-        )}
-      </Center>
+      {hasSavedAlbums ? (
+        <AlbumsList albums={albums} onDelete={deleteAlbum} onInfo={showInfo} />
+      ) : (
+        <p>Nothing here yet.</p>
+      )}
       <InfoSlider
         info={info}
         show={infoVisible}

@@ -26,8 +26,8 @@ function CoverCarousel(props) {
           <CoverCarouselImage album={props.album} onInfo={props.onInfo} />
         </Col>
       </Row>
-      <Row className="justify-content-center">
-        <Col>
+      <Row>
+        <Col className="text-end">
           <CoverNextButton onClick={handleNextAlbum} />
         </Col>
         <Col>

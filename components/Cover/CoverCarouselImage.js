@@ -5,8 +5,6 @@ import InfoOverlay from "./InfoOverlay";
 import PlayOverlay from "./PlayOverlay";
 import CoverImage from "../UI/CoverImage";
 
-import styles from "./CoverCarouselImage.module.css";
-
 function CoverCarouselImage(props) {
   const [hovered, setHovered] = useState(true);
 
@@ -30,7 +28,7 @@ function CoverCarouselImage(props) {
   return (
     <>
       <div
-        className={styles.container}
+        className="position-relative"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >

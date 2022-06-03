@@ -4,7 +4,7 @@ import styles from "./ExternalLink.module.css";
 
 function ExternalLink(props) {
   return (
-    <div className="ms-1">
+    <span className="ms-1">
       <a
         href={props.url}
         target="_blank"
@@ -13,7 +13,7 @@ function ExternalLink(props) {
       >
         <BsBoxArrowUpRight />
       </a>
-    </div>
+    </span>
   );
 }
 

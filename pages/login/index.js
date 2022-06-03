@@ -1,6 +1,6 @@
 import { signIn } from "next-auth/react";
 import Image from "next/image";
-import { Card, Container, Button, Row, Col } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 
 import styles from "./index.module.css";
 
@@ -10,7 +10,7 @@ function LoginPage() {
   }
 
   return (
-    <Container className={styles.container}>
+    <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.logo}>
           <Image
@@ -30,7 +30,7 @@ function LoginPage() {
           <p>Spotify meets Tinder.</p>
         </div>
       </div>
-    </Container>
+    </div>
   );
 }
 

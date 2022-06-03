@@ -1,4 +1,3 @@
-import Script from "next/script";
 import AlbumItem from "./AlbumItem";
 
 function AlbumsList({ albums, ...props }) {
