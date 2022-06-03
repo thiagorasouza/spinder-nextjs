@@ -1,7 +1,6 @@
 import { Button, Card, Container } from "react-bootstrap";
 import Layout from "../../components/Layout/Layout";
 import { useSession, signOut } from "next-auth/react";
-import Center from "../../components/Layout/Center";
 
 function AccountPage() {
   const session = useSession();
@@ -23,10 +22,8 @@ function AccountPage() {
   }
 
   return (
-    <Layout>
-      <Center>
-        <Button onClick={deleteAccount}>Delete Spinder Account</Button>
-      </Center>
+    <Layout verticallyCenter>
+      <Button onClick={deleteAccount}>Delete Spinder Account</Button>
     </Layout>
   );
 }

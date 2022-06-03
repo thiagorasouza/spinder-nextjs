@@ -6,6 +6,8 @@ import CoverNextButton from "./CoverNextButton";
 
 import useAudioContext from "../../hooks/useAudioContext";
 
+import styles from "./CoverCarousel.module.css";
+
 function CoverCarousel(props) {
   const { pauseAudio } = useAudioContext();
 
@@ -20,8 +22,8 @@ function CoverCarousel(props) {
   }
 
   return (
-    <>
-      <Row className="mb-4">
+    <div className={styles.container}>
+      <Row className="mb-4 justify-content-center">
         <Col>
           <CoverCarouselImage album={props.album} onInfo={props.onInfo} />
         </Col>
@@ -34,7 +36,7 @@ function CoverCarousel(props) {
           <CoverSaveButton onClick={handleSaveAlbum} />
         </Col>
       </Row>
-    </>
+    </div>
   );
 }
 
