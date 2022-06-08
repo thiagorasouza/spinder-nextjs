@@ -7,6 +7,7 @@ function AccountPage() {
   const session = useSession();
 
   function deleteAccount() {
+    // @ts-ignore
     const userId = session.data.user.id;
     console.log(`Delete user ${userId} account`);
 
@@ -33,7 +34,7 @@ function AccountPage() {
         linked to it.
       </p>
       <p>
-        <strong>Your Spotify account data won't be touched.</strong>
+        <strong>{`Your Spotify account data won't be touched.`}</strong>
       </p>
       <div className="text-end">
         <Button onClick={deleteAccount}>Delete Spinder Account</Button>
