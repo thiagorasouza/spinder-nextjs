@@ -1,6 +1,7 @@
-import { Button, Card, Container } from "react-bootstrap";
-import Layout from "../../components/Layout/Layout";
+import { Button } from "react-bootstrap";
 import { useSession, signOut } from "next-auth/react";
+import BasicPage from "../../components/UI/BasicPage";
+import { MdDelete } from "react-icons/md";
 
 function AccountPage() {
   const session = useSession();
@@ -22,9 +23,22 @@ function AccountPage() {
   }
 
   return (
-    <Layout verticallyCenter>
-      <Button onClick={deleteAccount}>Delete Spinder Account</Button>
-    </Layout>
+    <BasicPage
+      title="Delete Account"
+      icon={<MdDelete className="align-middle" />}
+      maxWidth="400px"
+    >
+      <p>
+        Click the button bellow to delete your account and all the Spinder data
+        linked to it.
+      </p>
+      <p>
+        <strong>Your Spotify account data won't be touched.</strong>
+      </p>
+      <div className="text-end">
+        <Button onClick={deleteAccount}>Delete Spinder Account</Button>
+      </div>
+    </BasicPage>
   );
 }
 

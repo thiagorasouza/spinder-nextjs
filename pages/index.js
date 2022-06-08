@@ -10,8 +10,9 @@ import useAlertContext from "../hooks/useAlertContext";
 
 function MainPage() {
   const { albums, albumIndex, nextAlbum, saveAlbum } = useAlbums();
-  const { info, infoVisible, infoIsLoading, showInfo, hideInfo } = useInfo();
-  const { alert, alertVisible, hideAlert } = useAlertContext();
+  const { alert, alertVisible, showAlert, hideAlert } = useAlertContext();
+  const { info, infoVisible, infoIsLoading, showInfo, hideInfo } =
+    useInfo(showAlert);
 
   if (!albums) {
     return <LoadingPage></LoadingPage>;

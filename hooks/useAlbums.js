@@ -29,15 +29,6 @@ function useAlbums() {
     loadVisibleAlbums();
   }, [genre]);
 
-  useUpdateEffect(() => {
-    if (isAlbumsEmpty()) return;
-
-    const lastFour = albums.length - 4;
-    if (albumIndex >= lastFour && !nextAlbums) {
-      loadNextAlbums();
-    }
-  });
-
   function isIndexValid(cachedIndex) {
     return Array.isArray(albums) && cachedIndex < albums.length;
   }
@@ -95,8 +86,14 @@ function useAlbums() {
     }
   }
 
-  async function nextAlbum() {
+  function nextAlbum() {
     const maxIndex = albums.length - 1;
+    const lastFour = maxIndex - 3;
+
+    if (albumIndex >= lastFour && !nextAlbums) {
+      loadNextAlbums();
+    }
+
     if (albumIndex < maxIndex) {
       setAlbumIndex((albumIndex) => albumIndex + 1);
     } else {

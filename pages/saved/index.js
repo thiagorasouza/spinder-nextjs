@@ -10,6 +10,7 @@ import Alert from "../../components/UI/Alert";
 import SavedAlbumsPlaceholder from "../../components/Placeholders/SavedAlbumsPlaceholder";
 
 import styles from "./index.module.css";
+import NoSavedAlbums from "../../components/UI/NoSavedAlbums";
 
 function SavedAlbumsPage() {
   const { alert, alertVisible, showAlert, hideAlert } = useAlert();
@@ -29,7 +30,7 @@ function SavedAlbumsPage() {
       {hasSavedAlbums ? (
         <AlbumsList albums={albums} onDelete={deleteAlbum} onInfo={showInfo} />
       ) : (
-        <p>Nothing here yet.</p>
+        <NoSavedAlbums />
       )}
       <InfoSlider
         info={info}

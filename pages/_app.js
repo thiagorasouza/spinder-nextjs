@@ -1,20 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 
 import { AlertContextProvider } from "../context/alert";
 import { AudioContextProvider } from "../context/audio";
 import { GenreContextProvider } from "../context/genre";
-import { SessionProvider, useSession, signIn } from "next-auth/react";
+import { SessionProvider, useSession, signOut } from "next-auth/react";
 
 import LoadingPage from "../components/UI/Loading";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/scss/global.scss";
+import ConnectionLostPage from "../components/UI/ConnectionLost";
+import useMountEffect from "../hooks/useMountEffect";
+import useOnline from "../hooks/useOnline";
 
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
 }) {
+  const online = useOnline();
+
   return (
     <>
       <Head>
@@ -24,15 +29,19 @@ export default function App({
       <AlertContextProvider>
         <AudioContextProvider>
           <GenreContextProvider>
-            <SessionProvider session={session}>
-              {Component.requiresAuthentication ? (
-                <Authenticated placeholder={Component.placeholder}>
+            {online ? (
+              <SessionProvider session={session}>
+                {Component.requiresAuthentication ? (
+                  <Authenticated placeholder={Component.placeholder}>
+                    <Component {...pageProps} />
+                  </Authenticated>
+                ) : (
                   <Component {...pageProps} />
-                </Authenticated>
-              ) : (
-                <Component {...pageProps} />
-              )}
-            </SessionProvider>
+                )}
+              </SessionProvider>
+            ) : (
+              <ConnectionLostPage />
+            )}
           </GenreContextProvider>
         </AudioContextProvider>
       </AlertContextProvider>
@@ -41,7 +50,14 @@ export default function App({
 }
 
 function Authenticated({ placeholder, children }) {
-  const session = useSession({ required: true });
+  const session = useSession({
+    required: true,
+    onUnauthenticated() {
+      if (window.navigator.onLine) {
+        signOut({ callbackUrl: "/login" });
+      }
+    },
+  });
 
   // return placeholder;
   if (session.status === "loading") {
@@ -50,5 +66,3 @@ function Authenticated({ placeholder, children }) {
     return children;
   }
 }
-// style="box-sizing: border-box; display: block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: relative;"
-// box-sizing: border-box; display: block; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 100% 0px 0px;

@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { getFromLocal, saveToLocal } from "../lib/web-storage";
 
-import LastFmApi from "../lib/lastfm-api";
-import WikipediaApi from "../lib/wikipedia-api";
 import TextHelper from "../lib/text-helper";
+import ResourceInfo from "../lib/resource-info";
+import Album from "../lib/album";
+import Artist from "../lib/artist";
+import { NetworkError } from "../lib/errors";
 
 function useInfo(noData) {
   const [data, setData] = useState(null);
@@ -17,17 +19,25 @@ function useInfo(noData) {
     setData(null);
     setVisible(true);
 
-    const info = await getInfo(artist, album);
-    setData(info);
-    setLoading(false);
-
-    if (!info) {
+    try {
+      const info = await getInfo(artist, album);
+      if (!info) {
+        hideInfo();
+        noData("No information is available for this album or artist.");
+      } else {
+        setData(info);
+      }
+    } catch (error) {
+      console.log(error);
       hideInfo();
-      noData("No information is available for this album or artist");
+      noData("Unable to fetch the server at this moment");
+    } finally {
+      setLoading(false);
     }
   }
 
   function hideInfo() {
+    setLoading(false);
     setVisible(false);
   }
 
@@ -40,49 +50,83 @@ function useInfo(noData) {
     }
 
     const info = await fetchInfo(artist, album);
+    console.log("Info", info);
 
-    // console.log("Info", info);
-    if (info) {
-      info.text = extractSummary(info);
-      // @ts-ignore
-      info.api = info.api.apiName;
+    if (!info) {
+      return null;
     }
 
-    cache[key] = info;
-    // saveToLocal("info", cache);
+    const infoObj = {
+      text: extractSummary(info.text),
+      more: info.link,
+      api: info.API_NAME,
+    };
 
-    return info;
+    cache[key] = infoObj;
+    saveToLocal("info", cache);
+
+    return infoObj;
   }
 
   async function fetchInfo(artist, album) {
-    const apis = [
-      new LastFmApi(artist, album),
-      new WikipediaApi(artist, album),
+    console.log("Artist", artist);
+    console.log("Album", album);
+
+    const albumResource = new Album(artist, stripParenthesis(album));
+    // console.log("Album Resource", albumResource);
+    const albumInfo = await new ResourceInfo(albumResource);
+    // console.log("Album Info", albumInfo);
+
+    const artistResource = new Artist(artist);
+    // console.log("Artist Resource", artistResource);
+    const artistInfo = await new ResourceInfo(artistResource);
+    // console.log("Artist Info", artistInfo);
+
+    const fns = [
+      albumInfo.getFromLastFm.bind(albumInfo),
+      albumInfo.getFromWikipedia.bind(albumInfo),
+      artistInfo.getFromLastFm.bind(artistInfo),
+      artistInfo.getFromWikipedia.bind(artistInfo),
     ];
 
-    for (const api of apis) {
-      const albumInfo = await api.getAlbumInfo();
-      if (albumInfo && albumInfo.text) {
-        return albumInfo;
+    let errors = [];
+    for (const fn of fns) {
+      try {
+        const response = await fn();
+        if (response) {
+          return response;
+        }
+      } catch (error) {
+        if (error instanceof NetworkError) {
+          throw error;
+        } else {
+          console.log(error);
+          errors.push(error);
+        }
       }
     }
 
-    for (const api of apis) {
-      const artistInfo = await api.getArtistInfo();
-      if (artistInfo && artistInfo.text) {
-        return artistInfo;
-      }
+    if (errors.length > 0) {
+      throw errors;
+    } else {
+      return null;
     }
-
-    return null;
   }
 
-  function extractSummary(info) {
-    const textHelper = new TextHelper(info.text);
+  function stripParenthesis(str) {
+    const parenthesisIndex = str.indexOf("(");
+    if (parenthesisIndex === -1) {
+      return str;
+    } else {
+      return str.slice(0, parenthesisIndex).trim();
+    }
+  }
+
+  function extractSummary(text) {
+    const textHelper = new TextHelper(text);
     return textHelper.extractSummary({
       maxChars: 600,
       maxSentences: 5,
-      nextSectionDelimiter: info.api.stripAfter,
     });
   }
 
