@@ -9,7 +9,6 @@ function useUserAlbums(onDelete) {
   const { data, mutate } = useSWR(userId, getUserAlbums);
 
   async function deleteAlbum(albumId) {
-    const userId = session.data.user.id;
     const expected = data.filter((album) => album._id !== albumId);
 
     mutate(deleteUserAlbum(userId, albumId), {

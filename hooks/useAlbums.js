@@ -1,65 +1,98 @@
 import SpotifyApi from "../lib/spotify-api";
-import { getFromLocal, saveToLocal } from "../lib/web-storage";
 
 import { useState } from "react";
 import { useSession, signOut } from "next-auth/react";
-import { saveAlbumToUser } from "../lib/http";
+import {
+  saveAlbumToUser,
+  getUserAlbums,
+  getSkippedUserAlbums,
+  saveSkippedAlbumToUser,
+} from "../lib/http";
 import useUpdateEffect from "./useUpdateEffect";
 import useMountEffect from "./useMountEffect";
 import useGenreContext from "./useGenreContext";
 import useCache from "./useCache";
+import useAlertContext from "./useAlertContext";
+import useAlbumsCache from "./useAlbumsCache";
 
 function useAlbums() {
   const session = useSession();
-
   const { genre } = useGenreContext();
-  const [albums, setAlbums] = useCache("albums", null);
-  const [albumIndex, setAlbumIndex] = useCache("albumIndex", 0, isIndexValid);
-  const [loading, setLoading] = useState(false);
-  const [nextAlbums, setNextAlbums] = useState(null);
+  const [albums, albumIndex, setAlbums] = useAlbumsCache();
+  const [skippedAlbums, setSkippedAlbums] = useState([]);
+  const [savedAlbums, setSavedAlbums] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { showAlert } = useAlertContext();
 
-  useMountEffect(() => {
+  useMountEffect(async () => {
+    const userId = getUserId();
+
+    const skippedAlbums = await getSkippedUserAlbums(userId);
+    setSkippedAlbums(skippedAlbums);
+
+    const savedAlbums = await getUserAlbums(userId);
+    const savedAlbumsIds = savedAlbums.map((album) => album.spotifyId);
+    setSavedAlbums(savedAlbumsIds);
+
     if (isAlbumsEmpty()) {
-      loadVisibleAlbums();
+      loadNewAlbumsInLoadingState();
+    } else {
+      continueWithCachedAlbums();
     }
   });
 
   useUpdateEffect(() => {
-    setAlbums(null);
-    loadVisibleAlbums();
+    resetAlbumsInLoadingState();
   }, [genre]);
 
-  function isIndexValid(cachedIndex) {
-    return Array.isArray(albums) && cachedIndex < albums.length;
-  }
+  useUpdateEffect(() => {});
 
   function isAlbumsEmpty() {
-    return !albums || (Array.isArray(albums) && albums.length === 0);
+    return albums.length === 0;
   }
 
-  async function loadVisibleAlbums() {
-    const albums = await loadAlbums();
-    setAlbums(albums);
-    setAlbumIndex(0);
-  }
-
-  async function loadNextAlbums() {
-    const albums = await loadAlbums();
-    setNextAlbums(albums);
-  }
-
-  async function loadAlbums() {
-    if (loading) return;
+  async function resetAlbumsInLoadingState() {
     setLoading(true);
+    setAlbums([], 0);
+    await loadNewAlbums();
+    setLoading(false);
+  }
 
+  async function loadNewAlbumsInLoadingState() {
+    setLoading(true);
+    await loadNewAlbums();
+    setLoading(false);
+  }
+
+  async function loadNewAlbums() {
+    const newAlbums = await getNewAlbums();
+    if (isNotEmpty(newAlbums)) {
+      await syncNewAlbums(newAlbums);
+    } else {
+      showAlert(
+        "It seems like you reached the end of the line for this genre."
+      );
+    }
+  }
+
+  function isNotEmpty(arr) {
+    return arr && Array.isArray(arr) && arr.length > 0;
+  }
+
+  async function syncNewAlbums(newAlbums) {
+    setAlbums(newAlbums, 0);
+  }
+
+  async function getNewAlbums() {
     const api = getApiInstance();
 
     try {
-      const albums = await api.getRecommendedAlbums(genre);
-      setLoading(false);
-      return albums;
+      const loadedAlbums = await api.getRecommendedAlbums(genre);
+      console.log("Loaded Albums:", loadedAlbums.length);
+      const newAlbums = removeSeenAlbums(removeDuplicates(loadedAlbums));
+      console.log("New Albums", newAlbums.length);
+      return newAlbums;
     } catch (error) {
-      setLoading(false);
       console.log(error);
       const isTokenExpired = error.status === 401;
       if (isTokenExpired) {
@@ -74,36 +107,107 @@ function useAlbums() {
     return new SpotifyApi(accessToken, market);
   }
 
+  function removeDuplicates(albums) {
+    const uniqueAlbums = [];
+    albums.forEach((album) => {
+      const isUnique = !uniqueAlbums.some(
+        (item) => item.spotifyId === album.spotifyId
+      );
+      if (isUnique) {
+        uniqueAlbums.push(album);
+      }
+    });
+    return uniqueAlbums;
+  }
+
+  function removeSeenAlbums(albums) {
+    return albums.filter((album) => {
+      return (
+        !savedAlbums.includes(album.spotifyId) &&
+        !skippedAlbums.includes(album.spotifyId)
+      );
+    });
+  }
+
+  function continueWithCachedAlbums() {
+    setLoading(false);
+  }
+
+  function saveAlbumInLoadingState(album) {
+    setLoading(true);
+    saveAlbum(album);
+    setLoading(false);
+  }
+
   async function saveAlbum(album) {
-    const userId = session.data.user.id;
+    const userId = getUserId();
     const response = await saveAlbumToUser(album, userId);
 
-    const savedNow = response.status === 200;
+    const savedSuccessfully = response.status === 200;
     const alreadySaved = response.status === 400;
 
-    if (savedNow || alreadySaved) {
-      nextAlbum();
-    }
-  }
-
-  function nextAlbum() {
-    const maxIndex = albums.length - 1;
-    const lastFour = maxIndex - 3;
-
-    if (albumIndex >= lastFour && !nextAlbums) {
-      loadNextAlbums();
-    }
-
-    if (albumIndex < maxIndex) {
-      setAlbumIndex((albumIndex) => albumIndex + 1);
+    if (savedSuccessfully) {
+      setSavedAlbums((previous) => [...previous, album.spotifyId]);
+      skipAlbum();
+    } else if (alreadySaved) {
+      showAlert(
+        `Album "${album.albumName}" was already saved to your library.`,
+        5000
+      );
+      skipAlbum();
     } else {
-      setAlbums(nextAlbums);
-      setNextAlbums(null);
-      setAlbumIndex(0);
+      showAlert("Unable to save this album. Please try again later.");
     }
   }
 
-  return { albums, albumIndex, nextAlbum, saveAlbum };
+  async function saveAndSkipAlbum() {
+    await saveCurrentAlbumAsSkipped();
+    skipAlbum();
+  }
+
+  async function skipAlbum() {
+    if (nextAlbumExists()) {
+      goToNextAlbum();
+    } else {
+      loadNewAlbums();
+    }
+  }
+
+  async function saveCurrentAlbumAsSkipped() {
+    const spotifyId = getCurrentAlbumSpotifyId();
+    const userId = getUserId();
+
+    const skippedAlbums = await saveSkippedAlbumToUser(spotifyId, userId);
+    setSkippedAlbums(skippedAlbums);
+    return skippedAlbums;
+  }
+
+  function getUserId() {
+    return session.data.user.id;
+  }
+
+  function getCurrentAlbumSpotifyId() {
+    return albums[albumIndex].spotifyId;
+  }
+
+  function nextAlbumExists() {
+    const lastAlbumIndex = albums.length - 1;
+    const currentIndex = albumIndex;
+
+    return currentIndex < lastAlbumIndex;
+  }
+
+  async function goToNextAlbum() {
+    setAlbums(albums, albumIndex + 1);
+  }
+
+  return {
+    albums,
+    albumIndex,
+    albumsAreLoading: loading,
+    nextAlbum: saveAndSkipAlbum,
+    saveAlbum: saveAlbumInLoadingState,
+  };
 }
 
 export default useAlbums;

@@ -5,6 +5,7 @@ import styles from "./CoverImage.module.css";
 function CoverImage(props) {
   return (
     <Image
+      key={props.src}
       width="480"
       height="480"
       thumbnail

@@ -1,4 +1,7 @@
 import { getSession } from "next-auth/react";
+import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
+import client from "../lib/mongodb";
+
 import User from "../models/users.model.js";
 
 async function getUserObject(req, res) {
@@ -52,7 +55,7 @@ export async function deleteUser(req, res) {
   const user = await getUserObject(req, res);
   if (!user) return;
 
-  await User.deleteOne({ _id: user._id });
+  await MongoDBAdapter(client).deleteUser(user.id);
 
   return res.status(200).json(user);
 }
@@ -76,11 +79,31 @@ export async function saveAlbumToUser(req, res) {
   return res.status(200).json(updatedUser);
 }
 
+export async function saveSkippedAlbumToUser(req, res) {
+  const { spotifyId } = req.body;
+
+  const user = await getUserObject(req, res);
+  if (!user) return;
+
+  const updatedUser = await user.saveSkippedAlbum(spotifyId);
+
+  return res.status(200).json(updatedUser.skippedAlbums);
+}
+
 export async function getAlbumsFromUser(req, res) {
   const user = await getUserObject(req, res);
   if (!user) return;
 
   const albums = await user.findAlbums();
+
+  return res.status(200).json(albums);
+}
+
+export async function getSkippedAlbumsFromUser(req, res) {
+  const user = await getUserObject(req, res);
+  if (!user) return;
+
+  const albums = await user.findSkippedAlbums();
 
   return res.status(200).json(albums);
 }
@@ -98,5 +121,14 @@ export async function deleteAlbumFromUser(req, res) {
 
   await user.deleteAlbum(album);
 
-  return res.status(200).json(user.albums);
+  return res.status(200).json(user.savedAlbums);
+}
+
+export async function clearSkippedAlbums(req, res) {
+  const user = await getUserObject(req, res);
+  if (!user) return;
+
+  await user.clearSkippedAlbums();
+
+  return res.status(200);
 }

@@ -16,30 +16,45 @@ const usersSchema = new mongoose.Schema({
   spotifyId: String,
   name: String,
   email: String,
-  albums: [albumsSchema],
   image: String,
   emailVerified: Date,
+  savedAlbums: [albumsSchema],
+  skippedAlbums: [String],
 });
 
 usersSchema.methods.findAlbums = async function () {
-  return this.albums;
+  return this.savedAlbums;
+};
+
+usersSchema.methods.findSkippedAlbums = async function () {
+  return this.skippedAlbums;
 };
 
 usersSchema.methods.findAlbumById = async function (albumId) {
-  return this.albums.id(albumId);
+  return this.savedAlbums.id(albumId);
 };
 
 usersSchema.methods.findAlbumBySpotifyId = async function (spotifyId) {
-  return this.albums.find((album) => album.spotifyId === spotifyId);
+  return this.savedAlbums.find((album) => album.spotifyId === spotifyId);
 };
 
 usersSchema.methods.saveAlbum = async function (album) {
-  this.albums.push(album);
+  this.savedAlbums.push(album);
+  return await this.save();
+};
+
+usersSchema.methods.saveSkippedAlbum = async function (spotifyId) {
+  this.skippedAlbums.push(spotifyId);
   return await this.save();
 };
 
 usersSchema.methods.deleteAlbum = async function (album) {
   album.remove();
+  return await this.save();
+};
+
+usersSchema.methods.clearSkippedAlbums = async function () {
+  this.skippedAlbums = [];
   return await this.save();
 };
 

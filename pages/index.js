@@ -9,14 +9,26 @@ import useInfo from "../hooks/useInfo";
 import useAlertContext from "../hooks/useAlertContext";
 
 function MainPage() {
-  const { albums, albumIndex, nextAlbum, saveAlbum } = useAlbums();
+  const { albums, albumIndex, albumsAreLoading, nextAlbum, saveAlbum } =
+    useAlbums();
   const { alert, alertVisible, showAlert, hideAlert } = useAlertContext();
   const { info, infoVisible, infoIsLoading, showInfo, hideInfo } =
     useInfo(showAlert);
 
-  if (!albums) {
+  function noAlbums() {
+    return (
+      albumsAreLoading ||
+      !albums ||
+      (Array.isArray(albums) && albums.length === 0) ||
+      !albums[albumIndex]
+    );
+  }
+
+  if (noAlbums()) {
     return <LoadingPage></LoadingPage>;
   }
+
+  // console.log(albums);
 
   const album = albums[albumIndex];
 
