@@ -32,3 +32,5 @@ client-config.js
 
 # vercel
 .vercel
+
+.vscode

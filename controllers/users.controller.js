@@ -1,8 +1,49 @@
+import * as bcrypt from "bcrypt";
 import { getSession } from "next-auth/react";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import client from "../lib/mongodb";
 
 import User from "../models/users.model.js";
+
+export async function createUser(req, res) {
+  const userData = req.body;
+
+  const requiredFields = ["name", "email", "password", "passwordConfirmation"];
+  for (const field of requiredFields) {
+    if (!userData[field] || userData[field] === "") {
+      return res.status(400).json({
+        message: `Missing ${field} field`,
+      });
+    }
+  }
+
+  const { name, email, password, passwordConfirmation } = userData;
+
+  const emailAlreadyRegistered = await User.findOne({ email }).exec();
+  if (emailAlreadyRegistered) {
+    return res.status(400).json({
+      message: `Email already registered`,
+    });
+  }
+
+  if (password !== passwordConfirmation) {
+    return res.status(400).json({
+      message: "Passwords do not match",
+    });
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 12);
+
+  const savedUser = await User.create({
+    name,
+    email,
+    password: hashedPassword,
+    savedAlbums: [],
+    skippedAlbums: [],
+  });
+
+  return res.status(200).json(savedUser);
+}
 
 async function getUserObject(req, res) {
   const { userId } = req.query;
