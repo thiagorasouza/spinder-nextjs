@@ -1,0 +1,20 @@
+.title {
+  margin: 2rem 0 3rem;
+}
+
+.title h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.form {
+  margin-bottom: 2rem;
+}
+
+.controls {
+  margin-bottom: 4rem;
+}
+
+.footer p {
+  font-size: 0.8rem;
+}

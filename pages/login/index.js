@@ -1,36 +1,50 @@
 import { signIn } from "next-auth/react";
 import Image from "next/image";
-import { Button } from "react-bootstrap";
+import { Button, FloatingLabel, Form } from "react-bootstrap";
+import Card from "../../components/Layout/Card";
+import { autoLogin } from "../../lib/http";
 
 import styles from "./index.module.css";
 
 function LoginPage() {
-  function signInAndRedirect() {
-    signIn("spotify", { callbackUrl: "/" });
-  }
+  function handleLogin() {}
 
   return (
-    <div className={styles.container}>
-      <div className={styles.card}>
-        <div className={styles.logo}>
-          <Image
-            width="64"
-            height="64"
-            src="/img/logo-purple.png"
-            alt="Spinder logo, a pile of three albums"
-          />
-        </div>
-        <div className={styles.title}>
-          <h1>Spinder</h1>
-        </div>
-        <div className={styles.controls}>
-          <Button onClick={signInAndRedirect}>Login with Spotify</Button>
-        </div>
-        <div className={styles.footer}>
-          <p>Spotify meets Tinder.</p>
-        </div>
+    <Card>
+      <div className={styles.logo}>
+        <Image
+          width="64"
+          height="64"
+          src="/img/logo-purple.png"
+          alt="Spinder logo, a pile of three albums"
+        />
       </div>
-    </div>
+      <div className={styles.title}>
+        <h1>Spinder</h1>
+      </div>
+      <div className={styles.form}>
+        <Form>
+          <FloatingLabel
+            controlId="floatingEmail"
+            label="Email address"
+            className="mb-3"
+          >
+            <Form.Control type="email" placeholder="name@example.com" />
+          </FloatingLabel>
+          <FloatingLabel
+            controlId="floatingPassword"
+            label="Password"
+            className="mb-3"
+          >
+            <Form.Control type="password" placeholder="Password" />
+          </FloatingLabel>
+          <Button>Login</Button>
+        </Form>
+      </div>
+      <div className={styles.footer}>
+        <p>Spotify meets Tinder.</p>
+      </div>
+    </Card>
   );
 }
 
