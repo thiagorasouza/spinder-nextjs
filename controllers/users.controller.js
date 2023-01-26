@@ -45,6 +45,39 @@ export async function createUser(req, res) {
   return res.status(200).json(savedUser);
 }
 
+export async function loginUser(req, res) {
+  const userData = req.body;
+
+  const requiredFields = ["email", "password"];
+  for (const field of requiredFields) {
+    if (!userData[field] || userData[field] === "") {
+      return res.status(400).json({
+        message: `Missing ${field} field`,
+      });
+    }
+  }
+
+  const { email, password: rawPassword } = userData;
+
+  const userFound = await User.findOne({ email }).exec();
+  console.log("🚀 ~ userFound", userFound);
+  if (!userFound) {
+    return res.status(400).json({
+      message: `Email or password incorrect`,
+    });
+  }
+
+  const passwordsMatch = await bcrypt.compare(rawPassword, userFound.password);
+  if (!passwordsMatch) {
+    return res.status(400).json({
+      message: `Email or password incorrect`,
+    });
+  }
+
+  const { password, ...userWithoutPassword } = userFound["_doc"];
+  return res.status(200).json(userWithoutPassword);
+}
+
 async function getUserObject(req, res) {
   const { userId } = req.query;
 
