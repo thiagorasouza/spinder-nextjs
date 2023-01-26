@@ -2,12 +2,14 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Button, FloatingLabel, Form } from "react-bootstrap";
+import { useCookies } from "react-cookie";
 import Card from "../../components/Layout/Card";
 
 import styles from "./index.module.css";
 
 function LoginPage() {
   const router = useRouter();
+  const [cookies, setCookie] = useCookies(["name"]);
   const [errorMessage, setErrorMessage] = useState("");
 
   async function handleLogin(event) {
@@ -24,7 +26,6 @@ function LoginPage() {
         "Content-Type": "application/json",
       },
     });
-    // console.log("🚀 ~ response", response);
 
     if (response.status === 400) {
       const json = await response.json();
@@ -36,8 +37,10 @@ function LoginPage() {
       return setErrorMessage("Unknown server error. Please try again later.");
     }
 
-    const user = await response.json();
-    router.push("/");
+    const json = await response.json();
+
+    setCookie("userToken", json.userToken);
+    // router.push("/");
   }
 
   return (
@@ -65,6 +68,7 @@ function LoginPage() {
               name="email"
               type="email"
               placeholder="name@example.com"
+              defaultValue="johndoe@email.com"
             />
           </FloatingLabel>
           <FloatingLabel
@@ -76,6 +80,7 @@ function LoginPage() {
               name="password"
               type="password"
               placeholder="Password"
+              defaultValue="abc123"
             />
           </FloatingLabel>
           <Button type="submit">Login</Button>

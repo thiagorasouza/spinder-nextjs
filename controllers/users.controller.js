@@ -1,4 +1,6 @@
 import * as bcrypt from "bcrypt";
+import * as jwt from "jsonwebtoken";
+
 import { getSession } from "next-auth/react";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import client from "../lib/mongodb";
@@ -74,8 +76,36 @@ export async function loginUser(req, res) {
     });
   }
 
-  const { password, ...userWithoutPassword } = userFound["_doc"];
-  return res.status(200).json(userWithoutPassword);
+  const token = jwt.sign(
+    {
+      sub: userFound._id,
+      name: userFound.name,
+      email: userFound.email,
+    },
+    process.env.JWT_SECRET
+  );
+
+  return res.status(200).json({ userToken: token });
+}
+
+export async function checkUserToken(req, res) {
+  // console.log("Check token");
+  if (!req.body.userToken) {
+    return res.status(400).json({
+      message: "Invalid user token",
+    });
+  }
+
+  const { userToken } = req.body;
+
+  try {
+    const payload = await jwt.verify(userToken, process.env.JWT_SECRET);
+    return res.status(200).json(payload);
+  } catch (error) {
+    return res.status(400).json({
+      message: "Invalid user token",
+    });
+  }
 }
 
 async function getUserObject(req, res) {

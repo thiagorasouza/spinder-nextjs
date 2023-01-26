@@ -8,6 +8,7 @@ import useOnline from "../hooks/useOnline";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/scss/global.scss";
+import { CookiesProvider } from "react-cookie";
 
 export default function App({ Component }) {
   const online = useOnline();
@@ -18,25 +19,27 @@ export default function App({ Component }) {
         <title>Spinder - Spotify meets Tinder</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      <AlertContextProvider>
-        <AudioContextProvider>
-          <GenreContextProvider>
-            {online ? (
-              // <SessionProvider session={session}>
-              //   {Component.requiresAuthentication ? (
-              //     <Authenticated placeholder={Component.placeholder}>
-              <Component />
-            ) : (
-              //     </Authenticated>
-              //   ) : (
-              //     <Component {...pageProps} />
-              //   )}
-              // </SessionProvider>
-              <ConnectionLostPage />
-            )}
-          </GenreContextProvider>
-        </AudioContextProvider>
-      </AlertContextProvider>
+      <CookiesProvider>
+        <AlertContextProvider>
+          <AudioContextProvider>
+            <GenreContextProvider>
+              {online ? (
+                // <SessionProvider session={session}>
+                //   {Component.requiresAuthentication ? (
+                //     <Authenticated placeholder={Component.placeholder}>
+                <Component />
+              ) : (
+                //     </Authenticated>
+                //   ) : (
+                //     <Component {...pageProps} />
+                //   )}
+                // </SessionProvider>
+                <ConnectionLostPage />
+              )}
+            </GenreContextProvider>
+          </AudioContextProvider>
+        </AlertContextProvider>
+      </CookiesProvider>
     </>
   );
 }
