@@ -1,23 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import Head from "next/head";
-
 import { AlertContextProvider } from "../context/alert";
 import { AudioContextProvider } from "../context/audio";
 import { GenreContextProvider } from "../context/genre";
-import { SessionProvider, useSession, signOut } from "next-auth/react";
-
-import LoadingPage from "../components/UI/Loading";
+import ConnectionLostPage from "../components/UI/ConnectionLost";
+import useOnline from "../hooks/useOnline";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/scss/global.scss";
-import ConnectionLostPage from "../components/UI/ConnectionLost";
-import useMountEffect from "../hooks/useMountEffect";
-import useOnline from "../hooks/useOnline";
 
-export default function App({
-  Component,
-  pageProps: { session, ...pageProps },
-}) {
+export default function App({ Component }) {
   const online = useOnline();
 
   return (
@@ -30,16 +22,16 @@ export default function App({
         <AudioContextProvider>
           <GenreContextProvider>
             {online ? (
-              <SessionProvider session={session}>
-                {Component.requiresAuthentication ? (
-                  <Authenticated placeholder={Component.placeholder}>
-                    <Component {...pageProps} />
-                  </Authenticated>
-                ) : (
-                  <Component {...pageProps} />
-                )}
-              </SessionProvider>
+              // <SessionProvider session={session}>
+              //   {Component.requiresAuthentication ? (
+              //     <Authenticated placeholder={Component.placeholder}>
+              <Component />
             ) : (
+              //     </Authenticated>
+              //   ) : (
+              //     <Component {...pageProps} />
+              //   )}
+              // </SessionProvider>
               <ConnectionLostPage />
             )}
           </GenreContextProvider>
@@ -49,20 +41,20 @@ export default function App({
   );
 }
 
-function Authenticated({ placeholder, children }) {
-  const session = useSession({
-    required: true,
-    onUnauthenticated() {
-      if (window.navigator.onLine) {
-        signOut({ callbackUrl: "/login" });
-      }
-    },
-  });
+// function Authenticated({ placeholder, children }) {
+//   const session = useSession({
+//     required: true,
+//     onUnauthenticated() {
+//       if (window.navigator.onLine) {
+//         signOut({ callbackUrl: "/login" });
+//       }
+//     },
+//   });
 
-  // return placeholder;
-  if (session.status === "loading") {
-    return placeholder || <LoadingPage />;
-  } else if (session.status === "authenticated") {
-    return children;
-  }
-}
+//   // return placeholder;
+//   if (session.status === "loading") {
+//     return placeholder || <LoadingPage />;
+//   } else if (session.status === "authenticated") {
+//     return children;
+//   }
+// }
