@@ -13,8 +13,8 @@ function useSession() {
     }
 
     checkUserToken()
-      .then((isAuthenticated) => {
-        setUser(isAuthenticated);
+      .then((user) => {
+        setUser(user);
       })
       .catch(() => {
         setUser(false);
@@ -24,7 +24,7 @@ function useSession() {
   async function checkUserToken() {
     const { userToken } = cookies;
 
-    const response = await fetch("/api/token", {
+    const response = await fetch("/api/session", {
       method: "POST",
       body: JSON.stringify({ userToken }),
       headers: {
@@ -32,7 +32,11 @@ function useSession() {
       },
     });
 
-    return response.status === 200;
+    if (response.status !== 200) {
+      return false;
+    }
+
+    return await response.json();
   }
 
   return [loading, user];
