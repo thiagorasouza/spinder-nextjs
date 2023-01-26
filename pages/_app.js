@@ -9,6 +9,10 @@ import useOnline from "../hooks/useOnline";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/scss/global.scss";
 import { CookiesProvider } from "react-cookie";
+import { SessionContextProvider } from "../context/session";
+import useSessionContext from "../hooks/useSessionContext";
+import { useRouter } from "next/router";
+import LoadingPage from "../components/UI/Loading";
 
 export default function App({ Component }) {
   const online = useOnline();
@@ -24,16 +28,16 @@ export default function App({ Component }) {
           <AudioContextProvider>
             <GenreContextProvider>
               {online ? (
-                // <SessionProvider session={session}>
-                //   {Component.requiresAuthentication ? (
-                //     <Authenticated placeholder={Component.placeholder}>
-                <Component />
+                <SessionContextProvider>
+                  {Component.requiresAuthentication ? (
+                    <Authenticated placeholder={Component.placeholder}>
+                      <Component />
+                    </Authenticated>
+                  ) : (
+                    <Component />
+                  )}
+                </SessionContextProvider>
               ) : (
-                //     </Authenticated>
-                //   ) : (
-                //     <Component {...pageProps} />
-                //   )}
-                // </SessionProvider>
                 <ConnectionLostPage />
               )}
             </GenreContextProvider>
@@ -44,20 +48,15 @@ export default function App({ Component }) {
   );
 }
 
-// function Authenticated({ placeholder, children }) {
-//   const session = useSession({
-//     required: true,
-//     onUnauthenticated() {
-//       if (window.navigator.onLine) {
-//         signOut({ callbackUrl: "/login" });
-//       }
-//     },
-//   });
+function Authenticated({ placeholder, children }) {
+  const router = useRouter();
+  const [user, loading] = useSessionContext();
 
-//   // return placeholder;
-//   if (session.status === "loading") {
-//     return placeholder || <LoadingPage />;
-//   } else if (session.status === "authenticated") {
-//     return children;
-//   }
-// }
+  if (loading) {
+    return placeholder || <LoadingPage />;
+  } else if (user) {
+    return children;
+  } else {
+    router.push("/login");
+  }
+}

@@ -111,9 +111,12 @@ export async function checkUserToken(req, res) {
 async function getUserObject(req, res) {
   const { userId } = req.query;
 
-  const session = await getSession({ req });
+  const userToken = req.cookies.userToken;
+  const payload = await jwt.verify(userToken, process.env.JWT_SECRET);
 
-  if (userId !== session.user.id) {
+  // console.log("🚀 ~ userId", userId);
+  // console.log("🚀 ~ jwt", payload);
+  if (userId !== payload.sub) {
     return res.status(401).json({
       message:
         "User does not have permission to permission to perform this action",

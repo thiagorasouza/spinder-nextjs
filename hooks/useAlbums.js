@@ -1,7 +1,6 @@
 import SpotifyApi from "../lib/spotify-api";
 
 import { useState } from "react";
-import { useSession, signOut } from "next-auth/react";
 import {
   saveAlbumToUser,
   getUserAlbums,
@@ -11,12 +10,13 @@ import {
 import useUpdateEffect from "./useUpdateEffect";
 import useMountEffect from "./useMountEffect";
 import useGenreContext from "./useGenreContext";
-import useCache from "./useCache";
 import useAlertContext from "./useAlertContext";
 import useAlbumsCache from "./useAlbumsCache";
+import fetcher from "../lib/fetcher";
+import useSessionContext from "./useSessionContext";
 
 function useAlbums() {
-  const session = useSession();
+  const [jwt] = useSessionContext();
   const { genre } = useGenreContext();
   const [albums, albumIndex, setAlbums] = useAlbumsCache();
   const [skippedAlbums, setSkippedAlbums] = useState([]);
@@ -84,7 +84,7 @@ function useAlbums() {
   }
 
   async function getNewAlbums() {
-    const api = getApiInstance();
+    const api = await getApiInstance();
 
     try {
       const loadedAlbums = await api.getRecommendedAlbums(genre);
@@ -96,15 +96,15 @@ function useAlbums() {
       console.log(error);
       const isTokenExpired = error.status === 401;
       if (isTokenExpired) {
-        signOut();
+        console.log("Token expired");
       }
     }
   }
 
-  function getApiInstance() {
-    const accessToken = session.data.accessToken;
-    const market = session.data.user.country;
-    return new SpotifyApi(accessToken, market);
+  async function getApiInstance() {
+    const response = await fetcher("/api/token");
+    const { access_token } = await response.json();
+    return new SpotifyApi(access_token);
   }
 
   function removeDuplicates(albums) {
@@ -183,7 +183,7 @@ function useAlbums() {
   }
 
   function getUserId() {
-    return session.data.user.id;
+    return jwt.sub;
   }
 
   function getCurrentAlbumSpotifyId() {

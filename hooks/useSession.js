@@ -39,7 +39,7 @@ function useSession() {
     return await response.json();
   }
 
-  return [loading, user];
+  return [user, loading];
 }
 
 export default useSession;
