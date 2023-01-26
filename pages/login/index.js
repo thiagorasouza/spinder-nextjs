@@ -1,13 +1,44 @@
-import { signIn } from "next-auth/react";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import { Button, FloatingLabel, Form } from "react-bootstrap";
 import Card from "../../components/Layout/Card";
-import { autoLogin } from "../../lib/http";
 
 import styles from "./index.module.css";
 
 function LoginPage() {
-  function handleLogin() {}
+  const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState("");
+
+  async function handleLogin(event) {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const userData = Object.fromEntries(formData.entries());
+    console.log("🚀 ~ userData", userData);
+
+    const response = await fetch("/api/login", {
+      method: "POST",
+      body: JSON.stringify(userData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    // console.log("🚀 ~ response", response);
+
+    if (response.status === 400) {
+      const json = await response.json();
+      const errorMessage = json.message;
+      return setErrorMessage(errorMessage);
+    }
+
+    if (response.status !== 200) {
+      return setErrorMessage("Unknown server error. Please try again later.");
+    }
+
+    const user = await response.json();
+    router.push("/");
+  }
 
   return (
     <Card>
@@ -22,23 +53,32 @@ function LoginPage() {
       <div className={styles.title}>
         <h1>Spinder</h1>
       </div>
+      {errorMessage ? <p>{errorMessage}</p> : null}
       <div className={styles.form}>
-        <Form>
+        <Form onSubmit={handleLogin}>
           <FloatingLabel
             controlId="floatingEmail"
             label="Email address"
             className="mb-3"
           >
-            <Form.Control type="email" placeholder="name@example.com" />
+            <Form.Control
+              name="email"
+              type="email"
+              placeholder="name@example.com"
+            />
           </FloatingLabel>
           <FloatingLabel
             controlId="floatingPassword"
             label="Password"
             className="mb-3"
           >
-            <Form.Control type="password" placeholder="Password" />
+            <Form.Control
+              name="password"
+              type="password"
+              placeholder="Password"
+            />
           </FloatingLabel>
-          <Button>Login</Button>
+          <Button type="submit">Login</Button>
         </Form>
       </div>
       <div className={styles.footer}>
