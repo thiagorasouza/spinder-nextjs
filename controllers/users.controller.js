@@ -1,9 +1,6 @@
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 
-import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
-import client from "../lib/mongodb";
-
 import User from "../models/users.model.js";
 
 export async function createUser(req, res) {
@@ -61,7 +58,6 @@ export async function loginUser(req, res) {
   const { email, password: rawPassword } = userData;
 
   const userFound = await User.findOne({ email }).exec();
-  console.log("🚀 ~ userFound", userFound);
   if (!userFound) {
     return res.status(400).json({
       message: `Email or password incorrect`,
@@ -88,7 +84,6 @@ export async function loginUser(req, res) {
 }
 
 export async function checkUserToken(req, res) {
-  // console.log("Check token");
   if (!req.body.userToken) {
     return res.status(400).json({
       message: "Invalid user token",
@@ -109,11 +104,16 @@ export async function checkUserToken(req, res) {
 
 async function getUserObject(req, res) {
   const { userId } = req.query;
-  console.log("🚀 ~ userId", userId);
 
   const userToken = req.cookies.userToken;
+  if (!userToken) {
+    return res.status(401).json({
+      message:
+        "User does not have permission to permission to perform this action",
+    });
+  }
+
   const payload = await jwt.verify(userToken, process.env.JWT_SECRET);
-  console.log("🚀 ~ payload", payload.sub);
 
   if (userId !== payload.sub) {
     return res.status(401).json({
@@ -159,9 +159,8 @@ export async function getUser(req, res) {
 
 export async function deleteUser(req, res) {
   const user = await getUserObject(req, res);
-  if (!user) return;
 
-  await MongoDBAdapter(client).deleteUser(user.id);
+  await User.deleteOne({ _id: user._id });
 
   return res.status(200).json(user);
 }
