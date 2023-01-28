@@ -12,13 +12,9 @@ const albumsSchema = new mongoose.Schema({
 });
 
 const usersSchema = new mongoose.Schema({
-  // _id: mongoose.ObjectId,
-  spotifyId: String,
   name: String,
   email: String,
   password: String,
-  image: String,
-  emailVerified: Date,
   savedAlbums: [albumsSchema],
   skippedAlbums: [String],
 });
