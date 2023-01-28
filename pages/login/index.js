@@ -72,7 +72,6 @@ function LoginPage() {
               name="email"
               type="email"
               placeholder="name@example.com"
-              defaultValue="johndoe@email.com"
             />
           </FloatingLabel>
           <FloatingLabel
@@ -84,7 +83,6 @@ function LoginPage() {
               name="password"
               type="password"
               placeholder="Password"
-              defaultValue="abc123"
             />
           </FloatingLabel>
           <Button type="submit">Login</Button>
