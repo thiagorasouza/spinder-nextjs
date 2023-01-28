@@ -41,16 +41,12 @@ function useSession() {
   }
 
   async function checkUser() {
-    // console.log("Check user");
-
     const userToken = getUserToken();
-    console.log("🚀 ~ userToken", userToken);
     if (!userToken) {
       return dispatch({ type: "fail" });
     }
 
     const user = await getUserFromToken(userToken);
-    console.log("🚀 ~ user", user);
     if (!user) {
       return dispatch({ type: "fail" });
     }
@@ -86,8 +82,6 @@ function useSession() {
   function unsetUserToken() {
     document.cookie = `userToken=`;
   }
-
-  console.log("status", state.status);
 
   return {
     status: state.status,

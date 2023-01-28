@@ -29,8 +29,6 @@ function useAlbumsCache() {
   }
 
   function setAlbums(list, index) {
-    console.log("Max Index:", list.length);
-    console.log("Index:", index);
     setData({ list, index });
   }
 

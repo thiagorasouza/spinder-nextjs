@@ -12,15 +12,10 @@ import { SessionContextProvider } from "../context/session";
 import useSessionContext from "../hooks/useSessionContext";
 import { useRouter } from "next/router";
 import LoadingPage from "../components/UI/Loading";
-import useMountEffect from "../hooks/useMountEffect";
 
 export default function App({ Component }) {
   const online = useOnline();
   const router = useRouter();
-
-  useMountEffect(() => {
-    router.events.on("routeChangeStart", console.log);
-  });
 
   return (
     <>

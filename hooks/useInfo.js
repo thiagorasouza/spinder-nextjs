@@ -28,7 +28,6 @@ function useInfo(noData) {
         setData(info);
       }
     } catch (error) {
-      console.log(error);
       hideInfo();
       noData("Unable to fetch the server at this moment");
     } finally {
@@ -50,7 +49,6 @@ function useInfo(noData) {
     }
 
     const info = await fetchInfo(artist, album);
-    console.log("Info", info);
 
     if (!info) {
       return null;
@@ -69,18 +67,11 @@ function useInfo(noData) {
   }
 
   async function fetchInfo(artist, album) {
-    console.log("Artist", artist);
-    console.log("Album", album);
-
     const albumResource = new Album(artist, stripParenthesis(album));
-    // console.log("Album Resource", albumResource);
     const albumInfo = await new ResourceInfo(albumResource);
-    // console.log("Album Info", albumInfo);
 
     const artistResource = new Artist(artist);
-    // console.log("Artist Resource", artistResource);
     const artistInfo = await new ResourceInfo(artistResource);
-    // console.log("Artist Info", artistInfo);
 
     const fns = [
       albumInfo.getFromLastFm.bind(albumInfo),
@@ -100,7 +91,6 @@ function useInfo(noData) {
         if (error instanceof NetworkError) {
           throw error;
         } else {
-          console.log(error);
           errors.push(error);
         }
       }

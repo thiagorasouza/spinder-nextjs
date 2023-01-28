@@ -28,8 +28,6 @@ function MainPage() {
     return <LoadingPage></LoadingPage>;
   }
 
-  // console.log(albums);
-
   const album = albums[albumIndex];
 
   return (

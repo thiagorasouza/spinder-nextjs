@@ -11,18 +11,15 @@ function AccountPage() {
   function deleteAccount() {
     // @ts-ignore
     const userId = user.sub;
-    console.log(`Delete user ${userId} account`);
 
     fetch(`/api/users/${userId}`, {
       method: "DELETE",
-    })
-      .then((response) => {
-        if (response.status === 200) {
-          localStorage.clear();
-          router.push("/logout");
-        }
-      })
-      .catch(console.log);
+    }).then((response) => {
+      if (response.status === 200) {
+        localStorage.clear();
+        router.push("/logout");
+      }
+    });
   }
 
   return (

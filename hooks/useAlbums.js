@@ -86,19 +86,9 @@ function useAlbums() {
   async function getNewAlbums() {
     const api = await getApiInstance();
 
-    try {
-      const loadedAlbums = await api.getRecommendedAlbums(genre);
-      console.log("Loaded Albums:", loadedAlbums.length);
-      const newAlbums = removeSeenAlbums(removeDuplicates(loadedAlbums));
-      console.log("New Albums", newAlbums.length);
-      return newAlbums;
-    } catch (error) {
-      console.log(error);
-      const isTokenExpired = error.status === 401;
-      if (isTokenExpired) {
-        console.log("Token expired");
-      }
-    }
+    const loadedAlbums = await api.getRecommendedAlbums(genre);
+    const newAlbums = removeSeenAlbums(removeDuplicates(loadedAlbums));
+    return newAlbums;
   }
 
   async function getApiInstance() {
