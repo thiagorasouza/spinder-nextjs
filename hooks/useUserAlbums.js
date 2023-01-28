@@ -1,11 +1,11 @@
 import useSWR from "swr";
-import { useSession } from "next-auth/react";
+import useSessionContext from "../hooks/useSessionContext";
 import { getUserAlbums, deleteUserAlbum } from "../lib/http";
 
 function useUserAlbums(onDelete) {
-  const session = useSession();
+  const { user } = useSessionContext();
 
-  const userId = session.data.user?.id ?? null;
+  const userId = user.sub ?? null;
   const { data, mutate } = useSWR(userId, getUserAlbums);
 
   async function deleteAlbum(albumId) {

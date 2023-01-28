@@ -8,14 +8,19 @@ import useOnline from "../hooks/useOnline";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/scss/global.scss";
-import { CookiesProvider } from "react-cookie";
 import { SessionContextProvider } from "../context/session";
 import useSessionContext from "../hooks/useSessionContext";
 import { useRouter } from "next/router";
 import LoadingPage from "../components/UI/Loading";
+import useMountEffect from "../hooks/useMountEffect";
 
 export default function App({ Component }) {
   const online = useOnline();
+  const router = useRouter();
+
+  useMountEffect(() => {
+    router.events.on("routeChangeStart", console.log);
+  });
 
   return (
     <>
@@ -23,38 +28,36 @@ export default function App({ Component }) {
         <title>Spinder - Spotify meets Tinder</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      <CookiesProvider>
+      <SessionContextProvider>
         <AlertContextProvider>
           <AudioContextProvider>
             <GenreContextProvider>
               {online ? (
-                <SessionContextProvider>
-                  {Component.requiresAuthentication ? (
-                    <Authenticated placeholder={Component.placeholder}>
-                      <Component />
-                    </Authenticated>
-                  ) : (
+                Component.requiresAuthentication ? (
+                  <Authenticated placeholder={Component.placeholder}>
                     <Component />
-                  )}
-                </SessionContextProvider>
+                  </Authenticated>
+                ) : (
+                  <Component />
+                )
               ) : (
                 <ConnectionLostPage />
               )}
             </GenreContextProvider>
           </AudioContextProvider>
         </AlertContextProvider>
-      </CookiesProvider>
+      </SessionContextProvider>
     </>
   );
 }
 
 function Authenticated({ placeholder, children }) {
   const router = useRouter();
-  const [user, loading] = useSessionContext();
+  const { status } = useSessionContext();
 
-  if (loading) {
+  if (status === "initial" || status === "loading") {
     return placeholder || <LoadingPage />;
-  } else if (user) {
+  } else if (status === "authenticated") {
     return children;
   } else {
     router.push("/login");

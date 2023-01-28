@@ -1,7 +1,6 @@
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 
-import { getSession } from "next-auth/react";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import client from "../lib/mongodb";
 
@@ -110,12 +109,12 @@ export async function checkUserToken(req, res) {
 
 async function getUserObject(req, res) {
   const { userId } = req.query;
+  console.log("🚀 ~ userId", userId);
 
   const userToken = req.cookies.userToken;
   const payload = await jwt.verify(userToken, process.env.JWT_SECRET);
+  console.log("🚀 ~ payload", payload.sub);
 
-  // console.log("🚀 ~ userId", userId);
-  // console.log("🚀 ~ jwt", payload);
   if (userId !== payload.sub) {
     return res.status(401).json({
       message:

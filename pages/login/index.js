@@ -1,15 +1,16 @@
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Button, FloatingLabel, Form } from "react-bootstrap";
-import { useCookies } from "react-cookie";
 import Card from "../../components/Layout/Card";
+import useSessionContext from "../../hooks/useSessionContext";
 
 import styles from "./index.module.css";
 
 function LoginPage() {
+  const { status, login } = useSessionContext();
   const router = useRouter();
-  const [cookies, setCookie] = useCookies(["name"]);
   const [errorMessage, setErrorMessage] = useState("");
 
   async function handleLogin(event) {
@@ -17,7 +18,6 @@ function LoginPage() {
 
     const formData = new FormData(event.target);
     const userData = Object.fromEntries(formData.entries());
-    console.log("🚀 ~ userData", userData);
 
     const response = await fetch("/api/login", {
       method: "POST",
@@ -39,8 +39,12 @@ function LoginPage() {
 
     const json = await response.json();
 
-    setCookie("userToken", json.userToken);
-    // router.push("/");
+    await login(json.userToken);
+    router.push("/");
+  }
+
+  if (status === "authenticated") {
+    router.push("/");
   }
 
   return (
@@ -58,7 +62,7 @@ function LoginPage() {
       </div>
       {errorMessage ? <p>{errorMessage}</p> : null}
       <div className={styles.form}>
-        <Form onSubmit={handleLogin}>
+        <Form onSubmit={handleLogin} className="mb-3">
           <FloatingLabel
             controlId="floatingEmail"
             label="Email address"
@@ -86,6 +90,9 @@ function LoginPage() {
           <Button type="submit">Login</Button>
         </Form>
       </div>
+      <p>
+        Or <Link href="/register">click here to register</Link>
+      </p>
       <div className={styles.footer}>
         <p>Spotify meets Tinder.</p>
       </div>

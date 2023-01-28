@@ -16,7 +16,7 @@ import fetcher from "../lib/fetcher";
 import useSessionContext from "./useSessionContext";
 
 function useAlbums() {
-  const [jwt] = useSessionContext();
+  const { user } = useSessionContext();
   const { genre } = useGenreContext();
   const [albums, albumIndex, setAlbums] = useAlbumsCache();
   const [skippedAlbums, setSkippedAlbums] = useState([]);
@@ -183,7 +183,7 @@ function useAlbums() {
   }
 
   function getUserId() {
-    return jwt.sub;
+    return user.sub;
   }
 
   function getCurrentAlbumSpotifyId() {

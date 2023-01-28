@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Button, FloatingLabel, Form } from "react-bootstrap";
@@ -43,9 +44,14 @@ function RegisterPage() {
       </div>
       {errorMessage ? <p>{errorMessage}</p> : null}
       <div className={styles.form}>
-        <Form onSubmit={handleRegister}>
+        <Form onSubmit={handleRegister} className="mb-3">
           <FloatingLabel controlId="floatingName" label="Name" className="mb-3">
-            <Form.Control name="name" type="name" placeholder="your name" />
+            <Form.Control
+              name="name"
+              type="name"
+              placeholder="your name"
+              defaultValue="John Doe"
+            />
           </FloatingLabel>
           <FloatingLabel
             controlId="floatingEmail"
@@ -56,6 +62,7 @@ function RegisterPage() {
               name="email"
               type="email"
               placeholder="name@example.com"
+              defaultValue="johndoe@email.com"
             />
           </FloatingLabel>
           <FloatingLabel
@@ -67,6 +74,7 @@ function RegisterPage() {
               name="password"
               type="password"
               placeholder="password"
+              defaultValue="abc123"
             />
           </FloatingLabel>
           <FloatingLabel
@@ -78,10 +86,14 @@ function RegisterPage() {
               name="passwordConfirmation"
               type="password"
               placeholder="password confirmation"
+              defaultValue="abc123"
             />
           </FloatingLabel>
           <Button type="submit">Register</Button>
         </Form>
+        <p>
+          Or <Link href="/login">click here to login</Link>
+        </p>
       </div>
       <div className={styles.footer}>
         <p>Spinder - Spotify meets Tinder.</p>

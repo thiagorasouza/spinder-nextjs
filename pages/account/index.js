@@ -1,14 +1,16 @@
 import { Button } from "react-bootstrap";
-import { useSession, signOut } from "next-auth/react";
 import BasicPage from "../../components/UI/BasicPage";
 import { MdDelete } from "react-icons/md";
+import useSessionContext from "../../hooks/useSessionContext";
+import { useRouter } from "next/router";
 
 function AccountPage() {
-  const session = useSession();
+  const router = useRouter();
+  const { user } = useSessionContext();
 
   function deleteAccount() {
     // @ts-ignore
-    const userId = session.data.user.id;
+    const userId = user.sub;
     console.log(`Delete user ${userId} account`);
 
     fetch(`/api/users/${userId}`, {
@@ -17,7 +19,7 @@ function AccountPage() {
       .then((response) => {
         if (response.status === 200) {
           localStorage.clear();
-          signOut();
+          router.push("/logout");
         }
       })
       .catch(console.log);

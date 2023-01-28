@@ -2,14 +2,13 @@ import { Nav, Image } from "react-bootstrap";
 import Offcanvas from "../UI/Offcanvas";
 
 import Link from "next/link";
-import { signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 
 function AppMenu(props) {
   const router = useRouter();
 
-  function signOutAndRedirect() {
-    signOut({ callbackUrl: "/login" });
+  function logout() {
+    router.push("/logout");
   }
 
   const icon = (
@@ -42,7 +41,7 @@ function AppMenu(props) {
           </Link>
         </Nav.Item>
         <Nav.Item as="li">
-          <Nav.Link onClick={signOutAndRedirect}>Logout</Nav.Link>
+          <Nav.Link onClick={logout}>Logout</Nav.Link>
         </Nav.Item>
       </Nav>
     </Offcanvas>
