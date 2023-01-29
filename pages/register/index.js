@@ -3,10 +3,12 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { Button, FloatingLabel, Form } from "react-bootstrap";
 import Card from "../../components/Layout/Card";
+import fetcher from "../../lib/fetcher";
 import styles from "./index.module.css";
 
 function RegisterPage() {
   const router = useRouter();
+  const [fetching, setFetching] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   async function handleRegister(event) {
@@ -15,13 +17,16 @@ function RegisterPage() {
     const formData = new FormData(event.target);
     const userData = Object.fromEntries(formData.entries());
 
-    const response = await fetch("/api/register", {
+    setFetching(true);
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+    const response = await fetcher("/api/register", {
       method: "POST",
       body: JSON.stringify(userData),
       headers: {
         "Content-Type": "application/json",
       },
     });
+    setFetching(false);
 
     if (response.status === 400) {
       const json = await response.json();
@@ -46,7 +51,12 @@ function RegisterPage() {
       <div className={styles.form}>
         <Form onSubmit={handleRegister} className="mb-3">
           <FloatingLabel controlId="floatingName" label="Name" className="mb-3">
-            <Form.Control name="name" type="name" placeholder="your name" />
+            <Form.Control
+              name="name"
+              type="name"
+              placeholder="your name"
+              disabled={fetching}
+            />
           </FloatingLabel>
           <FloatingLabel
             controlId="floatingEmail"
@@ -57,6 +67,7 @@ function RegisterPage() {
               name="email"
               type="email"
               placeholder="name@example.com"
+              disabled={fetching}
             />
           </FloatingLabel>
           <FloatingLabel
@@ -68,6 +79,7 @@ function RegisterPage() {
               name="password"
               type="password"
               placeholder="password"
+              disabled={fetching}
             />
           </FloatingLabel>
           <FloatingLabel
@@ -79,9 +91,23 @@ function RegisterPage() {
               name="passwordConfirmation"
               type="password"
               placeholder="password confirmation"
+              disabled={fetching}
             />
           </FloatingLabel>
-          <Button type="submit">Register</Button>
+          <Button
+            type="submit"
+            disabled={fetching}
+            className="d-flex align-items-center justify-content-center m-auto w-100"
+          >
+            {fetching ? (
+              <>
+                <span aria-label="spinner" className={styles.spinner}></span>
+                {"Processing..."}
+              </>
+            ) : (
+              "Register"
+            )}
+          </Button>
         </Form>
         <p>
           Or <Link href="/login">click here to login</Link>

@@ -5,11 +5,14 @@ import { useState } from "react";
 import { Button, FloatingLabel, Form } from "react-bootstrap";
 import Card from "../../components/Layout/Card";
 import useSessionContext from "../../hooks/useSessionContext";
+import fetcher from "../../lib/fetcher";
 
 import styles from "./index.module.css";
 
 function LoginPage() {
   const { status, login } = useSessionContext();
+  const [fetching, setFetching] = useState(false);
+  console.log("🚀 ~ fetching", fetching);
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -19,13 +22,15 @@ function LoginPage() {
     const formData = new FormData(event.target);
     const userData = Object.fromEntries(formData.entries());
 
-    const response = await fetch("/api/login", {
+    setFetching(true);
+    const response = await fetcher("/api/login", {
       method: "POST",
       body: JSON.stringify(userData),
       headers: {
         "Content-Type": "application/json",
       },
     });
+    setFetching(false);
 
     if (response.status === 400) {
       const json = await response.json();
@@ -60,7 +65,7 @@ function LoginPage() {
       <div className={styles.title}>
         <h1>Spinder</h1>
       </div>
-      {errorMessage ? <p>{errorMessage}</p> : null}
+      <p>{errorMessage ?? null}</p>
       <div className={styles.form}>
         <Form onSubmit={handleLogin} className="mb-3">
           <FloatingLabel
@@ -72,6 +77,7 @@ function LoginPage() {
               name="email"
               type="email"
               placeholder="name@example.com"
+              disabled={fetching}
             />
           </FloatingLabel>
           <FloatingLabel
@@ -83,9 +89,23 @@ function LoginPage() {
               name="password"
               type="password"
               placeholder="Password"
+              disabled={fetching}
             />
           </FloatingLabel>
-          <Button type="submit">Login</Button>
+          <Button
+            type="submit"
+            disabled={fetching}
+            className="d-flex align-items-center justify-content-center m-auto w-100"
+          >
+            {fetching ? (
+              <>
+                <span aria-label="spinner" className={styles.spinner}></span>
+                {"Logging in..."}
+              </>
+            ) : (
+              "Login"
+            )}
+          </Button>
         </Form>
       </div>
       <p>

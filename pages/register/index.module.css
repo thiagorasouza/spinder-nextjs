@@ -18,3 +18,24 @@
 .footer p {
   font-size: 0.8rem;
 }
+
+.spinner {
+  width: 1.7rem;
+  height: 1.7rem;
+  margin-right: 1rem;
+  border: 0.3rem solid #fff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
