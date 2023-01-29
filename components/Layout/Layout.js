@@ -8,7 +8,7 @@ import { Container, Navbar, Image } from "react-bootstrap";
 
 import useGenreContext from "../../hooks/useGenreContext";
 
-import styles from "./Layout.module.css";
+import classNames from "classnames";
 
 function Layout({
   loadGenreMenu = false,
@@ -25,13 +25,22 @@ function Layout({
     setGenreMenuVisible(false);
   }
 
-  const containerStyle = `${styles.container} ${
-    !verticallyCenter ? styles.notCentered : ""
-  } ${noScroll ? styles.noScroll : ""}`;
+  const containerStyle = classNames(
+    "m-auto position-absolute top-0 start-0 bottom-0 end-0 d-flex flex-column",
+    {
+      "overflow-hidden": noScroll,
+      "pt-7": !verticallyCenter,
+    }
+  );
 
   return (
     <Container className={containerStyle}>
-      <Navbar expand={false} fixed="top" bg="light" className={styles.navbar}>
+      <Navbar
+        expand={false}
+        fixed="top"
+        bg="light"
+        className="mt-1 mx-1 p-2 rounded-1 shadow-sm"
+      >
         <IconButton
           arial-controls="app-menu"
           onClick={() => setAppMenuVisible(true)}
@@ -55,7 +64,7 @@ function Layout({
         </IconButton>
       </Navbar>
 
-      <main className={styles.main}>{children}</main>
+      <main>{children}</main>
 
       <AppMenu show={appMenuVisible} onHide={() => setAppMenuVisible(false)} />
       <GenreMenu
