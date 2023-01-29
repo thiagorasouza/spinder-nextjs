@@ -1,15 +1,20 @@
 import Layout from "../Layout/Layout";
-import styles from "./BasicPage.module.css";
 
 function BasicPage(props) {
   return (
     <Layout verticallyCenter>
-      <div className={styles.container} style={{ maxWidth: props.maxWidth }}>
-        <div className={styles.title}>
-          <props.icon.type className={styles.titleIcon} />
-          <span className={styles.titleText}>{props.title}</span>
+      <div
+        className="bg-white p-3 my-0 mx-auto shadow-sm"
+        style={{ maxWidth: props.maxWidth }}
+      >
+        <div className="mb-3">
+          <props.icon.type
+            className="me-1 align-middle"
+            style={{ width: "20px", height: "20px" }}
+          />
+          <span className="fw-bold">{props.title}</span>
         </div>
-        <div className={styles.body}>{props.children}</div>
+        <div>{props.children}</div>
       </div>
     </Layout>
   );

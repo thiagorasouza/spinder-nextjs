@@ -2,11 +2,10 @@ import Image from "next/image";
 import { Card } from "react-bootstrap";
 import ExternalLink from "../UI/ExternalLink";
 
-import styles from "./AlbumCard.module.css";
-
 function AlbumCard(props) {
   return (
-    <Card className={styles.card}>
+    // <Card className={styles.card}>
+    <Card className="w-100 mt-0 mx-auto mb-2" style={{ maxWidth: "480px" }}>
       {props.controls && (
         <div
           className="position-absolute top-0 end-0 p-1 d-flex gap-1 bg-light"

@@ -1,7 +1,5 @@
 import { Image } from "react-bootstrap";
 
-import styles from "./CoverImage.module.css";
-
 function CoverImage(props) {
   return (
     <Image
@@ -12,7 +10,8 @@ function CoverImage(props) {
       rounded
       src={props.src}
       alt={props.alt}
-      className={styles.image}
+      className="mw-100 p-1 shadow-sm bg-white"
+      style={{ aspectRatio: "1/1" }}
     />
   );
 }

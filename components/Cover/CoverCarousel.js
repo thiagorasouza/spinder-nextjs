@@ -6,8 +6,6 @@ import CoverNextButton from "./CoverNextButton";
 
 import useAudioContext from "../../hooks/useAudioContext";
 
-import styles from "./CoverCarousel.module.css";
-
 function CoverCarousel(props) {
   const { pauseAudio } = useAudioContext();
 
@@ -22,7 +20,7 @@ function CoverCarousel(props) {
   }
 
   return (
-    <div className={styles.container}>
+    <div className="w-100 mx-auto" style={{ maxWidth: "480px" }}>
       <Row className="mb-4 justify-content-center">
         <Col>
           <CoverCarouselImage album={props.album} onInfo={props.onInfo} />

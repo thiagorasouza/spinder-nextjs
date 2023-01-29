@@ -9,7 +9,6 @@ import AlbumsList from "../../components/Album/AlbumsList";
 import Alert from "../../components/UI/Alert";
 import SavedAlbumsPlaceholder from "../../components/Placeholders/SavedAlbumsPlaceholder";
 
-import styles from "./index.module.css";
 import NoSavedAlbums from "../../components/UI/NoSavedAlbums";
 
 function SavedAlbumsPage() {

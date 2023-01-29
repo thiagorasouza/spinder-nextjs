@@ -64,7 +64,7 @@ function Layout({
         </IconButton>
       </Navbar>
 
-      <main>{children}</main>
+      <main className="my-auto">{children}</main>
 
       <AppMenu show={appMenuVisible} onHide={() => setAppMenuVisible(false)} />
       <GenreMenu

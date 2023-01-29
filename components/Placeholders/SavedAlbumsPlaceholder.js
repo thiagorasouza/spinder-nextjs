@@ -2,8 +2,6 @@ import { Placeholder } from "react-bootstrap";
 import AlbumCard from "../Album/AlbumCard";
 import Layout from "../Layout/Layout";
 
-import styles from "./SavedAlbumsPlaceholder.module.css";
-
 function SavedAlbumsPlaceholder() {
   const repetitions = 2;
 

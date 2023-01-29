@@ -1,7 +1,5 @@
 import { Alert as BsAlert } from "react-bootstrap";
 
-import styles from "./Alert.module.css";
-
 function Alert(props) {
   if (!props.alert) {
     return null;
@@ -10,7 +8,8 @@ function Alert(props) {
   return (
     <BsAlert
       show={props.show}
-      className={styles.alert}
+      className="d-block bottom-0 position-fixed"
+      style={{ zIndex: "1030", left: "0.75rem", right: "0.75rem" }}
       variant={props.alert.type}
       dismissible
       onClose={props.onClose}
