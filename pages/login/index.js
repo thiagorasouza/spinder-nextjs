@@ -1,13 +1,13 @@
-import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import { Button, FloatingLabel, Form } from "react-bootstrap";
-import Card from "../../components/Layout/Card";
-import useSessionContext from "../../hooks/useSessionContext";
 import fetcher from "../../lib/fetcher";
 
-import styles from "./index.module.css";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import useSessionContext from "../../hooks/useSessionContext";
+
+import Card from "../../components/Layout/Card";
+import { Alert, FloatingLabel, Form, Image } from "react-bootstrap";
+import SubmitButton from "../../components/UI/SubmitButton";
 
 function LoginPage() {
   const { status, login } = useSessionContext();
@@ -23,6 +23,7 @@ function LoginPage() {
     const userData = Object.fromEntries(formData.entries());
 
     setFetching(true);
+    // await new Promise((resolve) => setTimeout(resolve, 2000));
     const response = await fetcher("/api/login", {
       method: "POST",
       body: JSON.stringify(userData),
@@ -53,20 +54,18 @@ function LoginPage() {
   }
 
   return (
-    <Card>
-      <div className={styles.logo}>
+    <Card className="pt-6 pb-4">
+      <div className="text-center mb-5">
         <Image
           width="64"
           height="64"
           src="/img/logo-purple.png"
           alt="Spinder logo, a pile of three albums"
         />
+        <h1 className="fs-2 fw-bold">Spinder</h1>
       </div>
-      <div className={styles.title}>
-        <h1>Spinder</h1>
-      </div>
-      <p>{errorMessage ?? null}</p>
-      <div className={styles.form}>
+      <div className="mb-3 text-center">{errorMessage}</div>
+      <div className="mb-4">
         <Form onSubmit={handleLogin} className="mb-3">
           <FloatingLabel
             controlId="floatingEmail"
@@ -92,28 +91,13 @@ function LoginPage() {
               disabled={fetching}
             />
           </FloatingLabel>
-          <Button
-            type="submit"
-            disabled={fetching}
-            className="d-flex align-items-center justify-content-center m-auto w-100"
-          >
-            {fetching ? (
-              <>
-                <span aria-label="spinner" className={styles.spinner}></span>
-                {"Logging in..."}
-              </>
-            ) : (
-              "Login"
-            )}
-          </Button>
+          <SubmitButton submitting={fetching}>Login</SubmitButton>
         </Form>
       </div>
-      <p>
+      <div className="mb-3 text-center">
         Or <Link href="/register">click here to register</Link>
-      </p>
-      <div className={styles.footer}>
-        <p>Spotify meets Tinder.</p>
       </div>
+      <div className="fs-7 text-center">Spotify meets Tinder</div>
     </Card>
   );
 }

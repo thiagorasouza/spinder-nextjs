@@ -1,3 +1,6 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../styles/scss/global.scss";
+
 import React from "react";
 import Head from "next/head";
 import { AlertContextProvider } from "../context/alert";
@@ -6,8 +9,6 @@ import { GenreContextProvider } from "../context/genre";
 import ConnectionLostPage from "../components/UI/ConnectionLost";
 import useOnline from "../hooks/useOnline";
 
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../styles/scss/global.scss";
 import { SessionContextProvider } from "../context/session";
 import useSessionContext from "../hooks/useSessionContext";
 import { useRouter } from "next/router";

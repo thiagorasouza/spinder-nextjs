@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { Button, FloatingLabel, Form } from "react-bootstrap";
+import { FloatingLabel, Form, Image } from "react-bootstrap";
 import Card from "../../components/Layout/Card";
+import SubmitButton from "../../components/UI/SubmitButton";
 import fetcher from "../../lib/fetcher";
-import styles from "./index.module.css";
 
 function RegisterPage() {
   const router = useRouter();
@@ -38,17 +38,23 @@ function RegisterPage() {
       return setErrorMessage("Unknown server error. Please try again later.");
     }
 
-    const user = await response.json();
     router.push("/login");
   }
 
   return (
-    <Card>
-      <div className={styles.title}>
-        <h1>Create your account</h1>
+    <Card className="pt-4">
+      <div className="d-flex align-items-center justify-content-center mb-4 mt-2">
+        <Image
+          width="48"
+          height="48"
+          src="/img/logo-purple.png"
+          className="me-2"
+          alt="Spinder logo, a pile of three albums"
+        />
+        <span className="fs-2 fw-bold">Spinder</span>
       </div>
-      {errorMessage ? <p>{errorMessage}</p> : null}
-      <div className={styles.form}>
+      <div className="mb-3 text-center">{errorMessage}</div>
+      <div className="mb-4">
         <Form onSubmit={handleRegister} className="mb-3">
           <FloatingLabel controlId="floatingName" label="Name" className="mb-3">
             <Form.Control
@@ -94,28 +100,13 @@ function RegisterPage() {
               disabled={fetching}
             />
           </FloatingLabel>
-          <Button
-            type="submit"
-            disabled={fetching}
-            className="d-flex align-items-center justify-content-center m-auto w-100"
-          >
-            {fetching ? (
-              <>
-                <span aria-label="spinner" className={styles.spinner}></span>
-                {"Processing..."}
-              </>
-            ) : (
-              "Register"
-            )}
-          </Button>
+          <SubmitButton submitting={fetching}>Register</SubmitButton>
         </Form>
-        <p>
+        <div className="mb-3 text-center">
           Or <Link href="/login">click here to login</Link>
-        </p>
+        </div>
       </div>
-      <div className={styles.footer}>
-        <p>Spinder - Spotify meets Tinder.</p>
-      </div>
+      <div className="fs-7 text-center">Spotify meets Tinder.</div>
     </Card>
   );
 }
