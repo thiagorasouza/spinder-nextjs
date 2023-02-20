@@ -12,7 +12,6 @@ import SubmitButton from "../../components/UI/SubmitButton";
 function LoginPage() {
   const { status, login } = useSessionContext();
   const [fetching, setFetching] = useState(false);
-  console.log("🚀 ~ fetching", fetching);
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -77,6 +76,7 @@ function LoginPage() {
               type="email"
               placeholder="name@example.com"
               disabled={fetching}
+              defaultValue="testaccount@email.com"
             />
           </FloatingLabel>
           <FloatingLabel
@@ -89,6 +89,7 @@ function LoginPage() {
               type="password"
               placeholder="Password"
               disabled={fetching}
+              defaultValue="testaccount"
             />
           </FloatingLabel>
           <SubmitButton submitting={fetching}>Login</SubmitButton>

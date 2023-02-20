@@ -123,20 +123,22 @@ function useAlbums() {
     setLoading(false);
   }
 
-  function saveAlbumInLoadingState(album) {
+  async function saveAlbumInLoadingState(album) {
     setLoading(true);
-    saveAlbum(album);
+    await saveAlbum(album);
     setLoading(false);
   }
 
   async function saveAlbum(album) {
     const userId = getUserId();
+    console.log("saving");
     const response = await saveAlbumToUser(album, userId);
 
     const savedSuccessfully = response.status === 200;
     const alreadySaved = response.status === 400;
 
     if (savedSuccessfully) {
+      showAlert(`The album was saved to your library.`, 2000);
       setSavedAlbums((previous) => [...previous, album.spotifyId]);
       skipAlbum();
     } else if (alreadySaved) {
@@ -151,8 +153,10 @@ function useAlbums() {
   }
 
   async function saveAndSkipAlbum() {
+    setLoading(true);
     await saveCurrentAlbumAsSkipped();
     skipAlbum();
+    setLoading(false);
   }
 
   async function skipAlbum() {
