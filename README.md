@@ -25,4 +25,4 @@ Spotify meets Tinder. Discover new music by matching with your favorite album co
 
 ## :wrench: Credits
 
-The Survey App is under development by :rocket: Thiago Souza (@thiagorasouza)
+Spinder is under development by :rocket: Thiago Souza (@thiagorasouza)
