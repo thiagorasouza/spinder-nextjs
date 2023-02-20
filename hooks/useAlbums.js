@@ -131,7 +131,6 @@ function useAlbums() {
 
   async function saveAlbum(album) {
     const userId = getUserId();
-    console.log("saving");
     const response = await saveAlbumToUser(album, userId);
 
     const savedSuccessfully = response.status === 200;

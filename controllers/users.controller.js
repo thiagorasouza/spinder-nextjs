@@ -160,6 +160,10 @@ export async function getUser(req, res) {
 export async function deleteUser(req, res) {
   const user = await getUserObject(req, res);
 
+  if (user.email === "testaccount@email.com") {
+    return res.status(403).json({ message: "Unable to delete test account." });
+  }
+
   await User.deleteOne({ _id: user._id });
 
   return res.status(200).json(user);
