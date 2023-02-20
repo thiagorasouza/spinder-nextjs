@@ -19,7 +19,9 @@ function InfoSlider(props) {
           <>
             <p>{props.info.text}</p>
             <p className="text-end">
-              <a href={props.info.more}>Read more on {props.info.api}</a>
+              <a href={props.info.more} target="_blank" rel="noreferrer">
+                Read more on {props.info.api}
+              </a>
             </p>
           </>
         )
