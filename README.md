@@ -1,24 +1,41 @@
-# Spinder App
+# Spinder - Spotify meets Tinder
 
-Spotify meets Tinder.
+![Release](https://img.shields.io/github/v/tag/thiagorasouza/spinder-nextjs?label=release)
 
-## :clock2: Go back in time 
-
-Do you miss going to the record store to shop for some new Vinyls? Do you remember the feeling of judging an album by its cover :framed_picture:? Get your headphones :headphones: on, grab your favorite covers and discover new music :notes: with Spinder.
+Spotify meets Tinder. Discover new music by matching with your favorite album covers. This app interacts with **Spotify API, Wikipedia API as Last.fm API** to offer almost any album media and information.
 
 **:fire: Spinder is for albums like Tinder is for people.**
 
-## :hammer_and_wrench: Development 
+## :fire: Main Features
 
-Spinder is under development by Thiago Souza (@thiagorasouza)
+- NEXT.js
+- React + Node + MongoDB
+- Optmistic UI
+- Uses multiple external APIs
+- Bootstrap
 
-### :earth_americas: Preview 
+## :earth_africa: Live
 
-- Live Demo: <https://spinder-nextjs.vercel.app/>
-- Github Repo: <https://github.com/thiagorasouza/spinder-nextjs>
+- The Survey App: :point_right: [https://the-survey-app.netlify.app](https://the-survey-app.netlify.app)
 
-### Stack
+Other links:
 
-- NEXT.js, React, Node, Javascript
-- MongoDB (Mongoose)
-- HTML, CSS
+- :book: API Docs: [https://the-survey-app-api.up.railway.app/api-docs](https://the-survey-app-api.up.railway.app/api-docs)
+- :gear: Backend: [https://the-survey-app-api.up.railway.app/](https://the-survey-app-api.up.railway.app/)
+
+## :card_file_box: Repos
+
+- Frontend: [@thiagorasouza/survey-frontend](https://github.com/thiagorasouza/survey-frontend)
+- Backend: [@thiagorasouza/survey-backend](https://github.com/thiagorasouza/survey-backend)
+
+## :computer: Screenshots
+
+[<img src="docs/login.png?raw=true" width="260"  alt=" Login page" />](https://github.com/thiagorasouza/survey-frontend/blob/main/docs/login.png?raw=true)
+[<img src="docs/surveys.png?raw=true" width="260" alt=" Surveys page" />](https://github.com/thiagorasouza/survey-frontend/blob/main/docs/surveys.png?raw=true)
+[<img src="docs/survey-question.png?raw=true" width="260" alt="Survey question page" />](https://github.com/thiagorasouza/survey-frontend/blob/main/docs/survey-question.png?raw=true)
+
+## :wrench: Credits
+
+The Survey App is under development by :rocket: Thiago Souza (@thiagorasouza)
+
+The app design was by inspired by :link: [Taufik Aziz's Behance gallery](https://www.behance.net/gallery/127836193/Surveio-Mobile-App-Design) and the landing page graphics were adapted from :link: [freepik](https://www.freepik.com/free-vector/people-checking-giant-check-list-background_4058655.htm).
