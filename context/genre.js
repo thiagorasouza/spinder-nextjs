@@ -3,11 +3,11 @@ import SpotifyApi from "../lib/spotify-api";
 import useCache from "../hooks/useCache";
 
 const genres = SpotifyApi.getGenres();
-const randomGenre = SpotifyApi.getRandomGenre();
+// const randomGenre = SpotifyApi.getRandomGenre();
 const GenreContext = createContext(null);
 
 function GenreContextProvider(props) {
-  const [genre, setGenre] = useCache("genre", randomGenre);
+  const [genre, setGenre] = useCache("genre", "Pop");
 
   const context = {
     genres,
