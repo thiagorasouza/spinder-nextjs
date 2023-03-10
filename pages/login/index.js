@@ -2,7 +2,7 @@ import Link from "next/link";
 import fetcher from "../../lib/fetcher";
 
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useSessionContext from "../../hooks/useSessionContext";
 
 import Card from "../../components/Layout/Card";
@@ -45,12 +45,14 @@ function LoginPage() {
     const json = await response.json();
 
     await login(json.userToken);
-    router.push("/");
+    return router.push("/");
   }
 
-  if (status === "authenticated") {
-    router.push("/");
-  }
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/");
+    }
+  }, []);
 
   return (
     <Card className="pt-6 pb-4">
