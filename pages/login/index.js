@@ -89,7 +89,7 @@ function LoginPage() {
               type="password"
               placeholder="Password"
               disabled={fetching}
-              defaultValue="testaccount"
+              defaultValue="testaccount##99885"
             />
           </FloatingLabel>
           <SubmitButton submitting={fetching}>Login</SubmitButton>
