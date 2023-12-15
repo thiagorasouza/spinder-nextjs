@@ -18,7 +18,6 @@ function RegisterPage() {
     const userData = Object.fromEntries(formData.entries());
 
     setFetching(true);
-    await new Promise((resolve) => setTimeout(resolve, 3000));
     const response = await fetcher("/api/register", {
       method: "POST",
       body: JSON.stringify(userData),

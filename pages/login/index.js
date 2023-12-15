@@ -22,7 +22,6 @@ function LoginPage() {
     const userData = Object.fromEntries(formData.entries());
 
     setFetching(true);
-    // await new Promise((resolve) => setTimeout(resolve, 2000));
     const response = await fetcher("/api/login", {
       method: "POST",
       body: JSON.stringify(userData),
