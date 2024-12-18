@@ -63,12 +63,12 @@ function LoginPage() {
         <div className="d-flex justify-content-center">
           <div className="d-inline-block bg-white p-3 my-0 shadow-sm rounded">
             <div className="my-3 mb-4 text-center">
-              <span className="fs-4 fw-bold">This app has stopped working</span>
+              <span className="fs-4 fw-bold">This app stopped working</span>
             </div>
             <div>
               <p>
-                This app relied heavily on Spotify's API recommendations
-                endpoint, which{" "}
+                This app relied heavily on Spotify API recommendations endpoint,
+                which{" "}
                 <Link href="https://developer.spotify.com/blog/2024-11-27-changes-to-the-web-api">
                   is no longer available after November 27, 2024
                 </Link>
